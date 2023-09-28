@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/background_login"
+    tools:context=".Login">
+    <ImageView
+        android:layout_marginLeft="165dp"
+        android:layout_marginTop="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/icon_thu_vien2" />
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="20dp"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập" />
+
+    <EditText
+        android:id="@+id/login_username"
+        android:drawableLeft="@drawable/icon_user"
+        android:drawablePadding="10dp"
+        android:paddingLeft="15dp"
+        android:background="@drawable/edittext_login"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="45dp"
+        android:hint="Username"
+        android:textColor="@color/black"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/login_pass"
+        android:drawableLeft="@drawable/icon_password"
+        android:drawablePadding="10dp"
+        android:paddingLeft="15dp"
+        android:background="@drawable/edittext_login"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="45dp"
+        android:hint="Password"
+        android:textColor="@color/black"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/login_login"
+        android:backgroundTint="@color/white"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="15dp"
+        android:text="Đăng nhập"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp" />
+</LinearLayout>
