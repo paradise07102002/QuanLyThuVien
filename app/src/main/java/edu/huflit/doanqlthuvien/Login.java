@@ -32,9 +32,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         database = new MyDatabase(this);
         anhXa();
-
-        //Tạo màu nền
-        setBackground();
         setColorTextView();
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,81 +45,6 @@ public class Login extends AppCompatActivity {
         username = (EditText) findViewById(R.id.login_username);
         password = (EditText) findViewById(R.id.login_pass);
         btn_login = (Button) findViewById(R.id.login_login);
-        background = (View) findViewById(R.id.background_login);
-        tv_login = (TextView) findViewById(R.id.tv_login);
-    }
-    //Code hiệu ứng chuyển màu
-    public void test()
-    {
-        int color1 = Color.parseColor("#FF0000");
-        int color2 = Color.parseColor("#FFA500");
-        int color3 = Color.parseColor("#FFFF00");
-        int color4 = Color.parseColor("#00FF00");
-
-        ValueAnimator valueAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), color1, color2, color3, color4);
-        valueAnimator.setDuration(2000);
-
-        //hiệu ứng chuyển màu lặp đi lặp lại
-        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator) {
-                tv_login.setBackgroundColor((int) valueAnimator.getAnimatedValue());
-            }
-        });
-        valueAnimator.start();
-    }
-    //CODE HIỆU ỨNG MÀU
-    public void test2()
-    {
-        int color1 = Color.parseColor("#8264FA");
-        int color2 = Color.parseColor("#AE29F0");
-
-        GradientDrawable gradientDrawable = new GradientDrawable();
-        gradientDrawable.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
-        gradientDrawable.setColors(new int[]{color1, color2});
-        gradientDrawable.setGradientRadius(100);
-        background.setBackground(gradientDrawable);
-    }
-    //Tạo màu nền cho màn hình Login
-    public void setBackground()
-    {
-        int color1 = Color.parseColor("#8264FA");
-        int color2 = Color.parseColor("#AE29F0");
-
-        GradientDrawable gradientDrawable = new GradientDrawable();
-        gradientDrawable.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
-        gradientDrawable.setColors(new int[]{color1, color2});
-        gradientDrawable.setGradientRadius(100);
-        background.setBackground(gradientDrawable);
-    }
-    //Màu chuyển động cho chữ
-    public void setColorTextView()
-    {
-        int[] colors = {
-                Color.parseColor("#FF0000"),
-                Color.parseColor("#FFA500"),
-                Color.parseColor("#FFFF00"),
-                Color.parseColor("#00FF00")
-        };
-        // Tạo một `ValueAnimator` để chuyển đổi màu sắc
-        ValueAnimator valueAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), colors[0], colors[1], colors[2], colors[3]);
-        valueAnimator.setDuration(6000);
-        //lặp lại vô hạn
-        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        // Bắt đầu `ValueAnimator`
-        valueAnimator.start();
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator) {
-                // Lấy giá trị màu hiện tại
-                int color = (int) valueAnimator.getAnimatedValue();
-
-                // Đặt màu cho textview
-                tv_login.setTextColor(color);
-                btn_login.setBackgroundColor((int) valueAnimator.getAnimatedValue());
-            }
-        });
     }
     //CODE KHI ẤN BUTTON ĐĂNG NHẬP
     public void dangNhap()
@@ -161,5 +83,30 @@ public class Login extends AppCompatActivity {
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+    }
+    public void setColorTextView()
+    {
+        int[] colors = {
+                Color.parseColor("#99FFFF"),
+                Color.parseColor("#CC00FF"),
+                Color.parseColor("#CC99FF"),
+                Color.parseColor("#CCFFFF")
+        };
+        // Tạo một `ValueAnimator` để chuyển đổi màu sắc
+        ValueAnimator valueAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), colors[0], colors[1], colors[2], colors[3]);
+        valueAnimator.setDuration(6000);
+        //lặp lại vô hạn
+        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        // Bắt đầu `ValueAnimator`
+        valueAnimator.start();
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(@NonNull ValueAnimator valueAnimator) {
+                // Lấy giá trị màu hiện tại
+                int color = (int) valueAnimator.getAnimatedValue();
+                // Đặt màu cho textview
+                btn_login.setBackgroundColor((int) valueAnimator.getAnimatedValue());
+            }
+        });
     }
 }

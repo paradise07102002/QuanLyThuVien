@@ -5,60 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/icon_background1"
     android:id="@+id/background_login"
     tools:context=".Login">
+
     <ImageView
-        android:layout_marginLeft="165dp"
-        android:layout_marginTop="50dp"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:srcCompat="@drawable/icon_thu_vien2" />
-    <TextView
-        android:id="@+id/tv_login"
-        android:layout_marginLeft="130dp"
-        android:layout_marginTop="20dp"
-        android:textSize="30dp"
-        android:textColor="@color/black"
+        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Đăng nhập" />
+        app:srcCompat="@drawable/icon_text_library" />
 
     <EditText
         android:id="@+id/login_username"
-        android:drawableLeft="@drawable/icon_user"
-        android:drawablePadding="10dp"
-        android:paddingLeft="15dp"
-        android:background="@drawable/edittext_login"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="45dp"
         android:hint="Username"
-        android:textColor="@color/black"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20dp"
+        android:drawableStart="@drawable/icon_user2"
+        android:paddingStart="10dp"
+        android:drawablePadding="10dp"
+        android:background="@drawable/edittext_transparent"
         android:layout_width="300dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:inputType="text"/>
-
     <EditText
         android:id="@+id/login_pass"
-        android:drawableLeft="@drawable/icon_password"
-        android:drawablePadding="10dp"
-        android:paddingLeft="15dp"
-        android:background="@drawable/edittext_login"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="45dp"
         android:hint="Password"
-        android:textColor="@color/black"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20dp"
+        android:drawableStart="@drawable/icon_password2"
+        android:paddingStart="10dp"
+        android:drawablePadding="10dp"
+        android:background="@drawable/edittext_transparent"
         android:layout_width="300dp"
-        android:layout_height="70dp"
-        android:inputType="textPassword" />
+        android:layout_height="60dp"
+        android:inputType="text"/>
 
     <Button
         android:id="@+id/login_login"
-        android:backgroundTint="@color/white"
-        android:layout_width="150dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="130dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="15dp"
-        android:text="Đăng nhập"
-        android:textColor="@color/white"
-        app:cornerRadius="20dp" />
+        android:text="Login"
+        app:cornerRadius="10dp"/>
 </LinearLayout>

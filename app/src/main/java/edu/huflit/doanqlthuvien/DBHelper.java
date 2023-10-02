@@ -73,7 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
     //TẠO TABLE LOẠI SÁCH
     private static final String TAO_TABLE_LOAI_SACH = ""
             + "CREATE TABLE " + TABLE_LOAI_SACH + "( "
-            + MA_LOAI_SACH_LS + " INTEGER PRIMARY KEY, "
+            + MA_LOAI_SACH_LS + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + TEN_LOAI_SACH_LS + " TEXT NOT NULL )";
     //TẠO TABLE THÀNH VIÊN
     private static final String TAO_TABLE_THANH_VIEN = ""

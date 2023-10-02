@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/icon_background1"
     tools:context=".MainActivity">
 
     <ImageView
+        android:layout_marginTop="200dp"
         android:id="@+id/img_main"
-        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/icon_thu_vien" />
+        app:srcCompat="@drawable/icon_1" />
 </LinearLayout>
