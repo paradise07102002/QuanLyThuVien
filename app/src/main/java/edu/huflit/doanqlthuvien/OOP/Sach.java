@@ -7,8 +7,10 @@ public class Sach {
     private String ten_sach_s;
     private String tac_gia_s;
     private String nha_xuat_ban_s;
-    private String nam_xuat_ban_s;
+    private int nam_xuat_ban_s;
     private int trang_thai_s;
+    private byte[] image_sach;
+    private String mo_ta_sach;
 
 
     public int getMa_sach_s() {
@@ -51,11 +53,11 @@ public class Sach {
         this.nha_xuat_ban_s = nha_xuat_ban_s;
     }
 
-    public String getNam_xuat_ban_s() {
+    public int getNam_xuat_ban_s() {
         return nam_xuat_ban_s;
     }
 
-    public void setNam_xuat_ban_s(String nam_xuat_ban_s) {
+    public void setNam_xuat_ban_s(int nam_xuat_ban_s) {
         this.nam_xuat_ban_s = nam_xuat_ban_s;
     }
 
@@ -65,5 +67,21 @@ public class Sach {
 
     public void setTrang_thai_s(int trang_thai_s) {
         this.trang_thai_s = trang_thai_s;
+    }
+
+    public byte[] getImage_sach() {
+        return image_sach;
+    }
+
+    public void setImage_sach(byte[] image_sach) {
+        this.image_sach = image_sach;
+    }
+
+    public String getMo_ta_sach() {
+        return mo_ta_sach;
+    }
+
+    public void setMo_ta_sach(String mo_ta_sach) {
+        this.mo_ta_sach = mo_ta_sach;
     }
 }

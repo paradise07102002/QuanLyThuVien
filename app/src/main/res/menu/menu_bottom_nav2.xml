@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_admin_1" android:title="Trang chủ" android:icon="@drawable/icon_book"/>
+    <item android:id="@+id/action2" android:title="tille_bottom2" android:icon="@drawable/icon_user2"/>
+    <item android:id="@+id/action3" android:title="tille_bottom3" android:icon="@drawable/icon_user2"/>
+</menu>

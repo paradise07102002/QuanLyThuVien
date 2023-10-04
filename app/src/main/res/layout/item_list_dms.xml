@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:id="@+id/dmds_image"
+        android:layout_marginTop="25dp"
+        android:id="@+id/dms_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/icon_book_shelf"/>
@@ -17,19 +16,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_dmds1"
+            android:id="@+id/tv_dms1"
             android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:text="Mã đầu sách: "
+            android:text="Mã sách: "
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/tv_dmds2"
+            android:id="@+id/tv_dms2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Tên đầu sách: "
+            android:text="Tên sách: "
             android:textColor="@color/black" />
     </LinearLayout>
     <LinearLayout
@@ -38,7 +37,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_dmds3"
+            android:id="@+id/tv_dms3"
             android:layout_marginTop="25dp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -46,7 +45,7 @@
             android:text="Mã sách" />
 
         <TextView
-            android:id="@+id/tv_dmds4"
+            android:id="@+id/tv_dms4"
             android:layout_marginTop="10dp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"

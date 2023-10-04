@@ -20,11 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <ImageView
-                android:layout_marginLeft="50dp"
+                android:id="@+id/next_mh_sach"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:layout_marginLeft="50dp"
                 app:srcCompat="@drawable/icon_book2" />
+
             <ImageView
                 android:id="@+id/next_dau_sach"
                 android:layout_marginLeft="35dp"

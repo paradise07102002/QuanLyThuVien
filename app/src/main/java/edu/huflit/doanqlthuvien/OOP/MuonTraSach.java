@@ -3,7 +3,7 @@ package edu.huflit.doanqlthuvien.OOP;
 public class MuonTraSach {
     private int ma_muon_tra_mts;
     private int ma_sach_mts;
-    private int ma_thanh_vien_mts;
+    private int ma_user_mts;
     private String ngay_muon_mts;
     private String ngay_tra_mts;
 
@@ -23,12 +23,12 @@ public class MuonTraSach {
         this.ma_sach_mts = ma_sach_mts;
     }
 
-    public int getMa_thanh_vien_mts() {
-        return ma_thanh_vien_mts;
+    public int getMa_user_mts() {
+        return ma_user_mts;
     }
 
-    public void setMa_thanh_vien_mts(int ma_thanh_vien_mts) {
-        this.ma_thanh_vien_mts = ma_thanh_vien_mts;
+    public void setMa_user_mts(int ma_user_mts) {
+        this.ma_user_mts = ma_user_mts;
     }
 
     public String getNgay_muon_mts() {

@@ -26,7 +26,7 @@ public class ManHinhChinhAdmin extends Fragment {
     View view;
     View background;
     //Các view
-    ImageView img_next_dau_sach;
+    ImageView img_next_dau_sach, img_next_sach;
 
     private ManHinhChinh manHinhChinh;
     @Nullable
@@ -45,13 +45,19 @@ public class ManHinhChinhAdmin extends Fragment {
             }
         });
 
-
+        img_next_sach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manHinhChinh.gotoManHinhSach();
+            }
+        });
         return view;
     }
     public void anhXa()
     {
         background = (View) view.findViewById(R.id.ibackground_mainscreen_admin);
         img_next_dau_sach = (ImageView) view.findViewById(R.id.next_dau_sach);
+        img_next_sach = (ImageView) view.findViewById(R.id.next_mh_sach);
     }
     public void setColorTextView()
     {
@@ -78,5 +84,4 @@ public class ManHinhChinhAdmin extends Fragment {
             }
         });
     }
-
 }

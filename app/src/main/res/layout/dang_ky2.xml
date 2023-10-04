@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/background_dangky2"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/edit_background1"
+        android:layout_width="345dp"
+        android:layout_height="600dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/dang_ky_back"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="48dp"
+            android:layout_height="32dp"
+            app:srcCompat="@drawable/icon_back1" />
+        <EditText
+            android:id="@+id/dk_username"
+            android:layout_marginTop="55dp"
+            android:layout_marginLeft="15dp"
+            android:hint="Username"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:drawableStart="@drawable/icon_user"
+            android:paddingStart="10dp"
+            android:drawablePadding="10dp"
+            android:background="@drawable/edit_edittext2"
+            android:layout_width="315dp"
+            android:layout_height="40dp"/>
+        <EditText
+            android:id="@+id/dk_password"
+            android:inputType="textPassword"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:hint="Password"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:drawableStart="@drawable/icon_password"
+            android:paddingStart="10dp"
+            android:drawablePadding="10dp"
+            android:background="@drawable/edit_edittext2"
+            android:layout_width="315dp"
+            android:layout_height="40dp"/>
+        <EditText
+            android:id="@+id/dk_re_password"
+            android:inputType="textPassword"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:hint="Re-password"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:drawableStart="@drawable/icon_password"
+            android:paddingStart="10dp"
+            android:drawablePadding="10dp"
+            android:background="@drawable/edit_edittext2"
+            android:layout_width="315dp"
+            android:layout_height="40dp"/>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:background="@color/black"
+            android:layout_marginLeft="15dp"
+            android:layout_width="315dp"
+            android:layout_height="1dp"/>
+        <TextView
+            android:text="Thông tin liên hệ"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/dk_fullname"
+            android:inputType="text"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:hint="Fullname"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:drawableStart="@drawable/icon_card"
+            android:paddingStart="10dp"
+            android:drawablePadding="10dp"
+            android:background="@drawable/edit_edittext2"
+            android:layout_width="315dp"
+            android:layout_height="40dp"/>
+        <EditText
+            android:id="@+id/dk_email"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:hint="Email"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:drawableStart="@drawable/icom_email"
+            android:paddingStart="10dp"
+            android:drawablePadding="10dp"
+            android:background="@drawable/edit_edittext2"
+            android:layout_width="315dp"
+            android:layout_height="40dp"/>
+
+        <EditText
+            android:id="@+id/dk_phone"
+            android:layout_width="315dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_edittext2"
+            android:drawableStart="@drawable/icon_phone"
+            android:drawablePadding="10dp"
+            android:hint="Phone"
+            android:inputType="number"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/dk_btn"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký"
+            app:cornerRadius="7dp" />
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_marginLeft="45dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bạn đã có tài khoản" />
+            <TextView
+                android:id="@+id/dk_next_login"
+                android:layout_marginLeft="25dp"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="#00BFFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đăng nhập" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

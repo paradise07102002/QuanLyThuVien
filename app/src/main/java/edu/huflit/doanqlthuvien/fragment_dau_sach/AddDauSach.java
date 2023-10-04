@@ -69,7 +69,6 @@ public class AddDauSach extends Fragment {
         {
             String p = "<font color='#FF0000'>Không được để trống!</font>";
             edt_ten_dau_sach.setHint(Html.fromHtml(p));
-            return;
         }
         else
         {

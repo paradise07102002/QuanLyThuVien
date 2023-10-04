@@ -2,6 +2,7 @@ package edu.huflit.doanqlthuvien.MyAdapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,9 @@ public class MyAdapterDMDauSach extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
+
         View view = inflater.inflate(R.layout.item_list_dmds, null);
 
-        textView = (TextView) view.findViewById(R.id.tv_dmds1);
         textView = (TextView) view.findViewById(R.id.tv_dmds1);
         textView = (TextView) view.findViewById(R.id.tv_dmds2);
         textView = (TextView) view.findViewById(R.id.tv_dmds3);
@@ -58,35 +59,7 @@ public class MyAdapterDMDauSach extends BaseAdapter {
         imageView = (ImageView) view.findViewById(R.id.dmds_image);
         imageView.setImageResource(R.drawable.icon_book_shelf);
 
-        imageView = (ImageView) view.findViewById(R.id.next_update_ds);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ManHinhDauSach.manHinhChinh.gotoUpdateDauSach();
-            }
-        });
-        imageView = (ImageView) view.findViewById(R.id.delete_ds);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Bạn muốn xóa");
-                builder.setNegativeButton("Xóa", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        int pos = ManHinhDauSach.loaiSaches.indexOf(imageView);
-                        ManHinhDauSach.xoaDauSach(pos);
-                    }
-                });
-                builder.setPositiveButton("Hủy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                builder.create().show();
-            }
-        });
+
         return view;
     }
 }
