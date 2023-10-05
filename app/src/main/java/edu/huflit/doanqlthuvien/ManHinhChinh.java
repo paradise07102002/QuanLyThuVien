@@ -208,6 +208,10 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                     replaceFragment(new Login2());
                     currentFragment = FR_LOGIN;
                 }
+                else
+                {
+                    replaceFragment(new Login2());
+                }
             }
             else if (check_login)
             {
