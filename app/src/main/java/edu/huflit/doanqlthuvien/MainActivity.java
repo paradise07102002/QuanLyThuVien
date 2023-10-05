@@ -33,18 +33,20 @@ public class MainActivity extends AppCompatActivity {
         img_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-                boolean check = sharedPreferences.getBoolean("is_login", false);
-                if (check == false)
-                {
-                    Intent inext = new Intent(getApplicationContext(), ManHinhChinh.class);
-                    startActivity(inext);
-                }
-                else
-                {
-                    Intent inext = new Intent(getApplicationContext(), ManHinhChinh.class);
-                    startActivity(inext);
-                }
+                Intent intent = new Intent(getApplicationContext(), ManHinhChinh.class);
+                startActivity(intent);
+                //SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+                //boolean check = sharedPreferences.getBoolean("is_login", false);
+//                if (check == false)
+//                {
+//                    Intent inext = new Intent(getApplicationContext(), ManHinhChinh.class);
+//                    startActivity(inext);
+//                }
+//                else
+//                {
+//                    Intent inext = new Intent(getApplicationContext(), ManHinhChinh.class);
+//                    startActivity(inext);
+//                }
             }
         });
     }

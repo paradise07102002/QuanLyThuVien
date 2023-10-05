@@ -117,22 +117,23 @@ public class Login2 extends Fragment {
         Menu navigationMenu = ManHinhChinh.navigationView.getMenu();
         MenuItem menuItem = navigationMenu.findItem(R.id.nav_tittle6);
         menuItem.setTitle("Đăng xuất");
+        Intent intent = new Intent(getActivity(), ManHinhChinh.class);
+        startActivity(intent);
 
-
-        if (user.getRole_user().equals("admin"))
-        {
-            Intent intent = new Intent(getActivity(), ManHinhChinh.class);
-            startActivity(intent);
-        }
-        else if (user.getRole_user().equals("user"))
-        {
-            Intent intent = new Intent(getActivity(), ManHinhChinh2.class);
-            startActivity(intent);
-        }
-        else if (user.getRole_user().equals("librarian"))
-        {
-
-        }
+//        if (user.getRole_user().equals("admin"))
+//        {
+//            Intent intent = new Intent(getActivity(), ManHinhChinh.class);
+//            startActivity(intent);
+//        }
+//        else if (user.getRole_user().equals("user"))
+//        {
+//            Intent intent = new Intent(getActivity(), ManHinhChinh2.class);
+//            startActivity(intent);
+//        }
+//        else if (user.getRole_user().equals("librarian"))
+//        {
+//
+//        }
     }
     public void setColorTextView()
     {

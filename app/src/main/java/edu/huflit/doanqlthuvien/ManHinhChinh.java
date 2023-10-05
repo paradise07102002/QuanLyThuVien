@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +28,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import edu.huflit.doanqlthuvien.ManHinhUser.ManHinhUser;
 import edu.huflit.doanqlthuvien.OOP.User;
+import edu.huflit.doanqlthuvien.fragment_admin.EditHeader;
 import edu.huflit.doanqlthuvien.fragment_admin.ManHinhChinhAdmin;
 import edu.huflit.doanqlthuvien.fragment_dau_sach.AddDauSach;
 import edu.huflit.doanqlthuvien.fragment_dau_sach.ManHinhDauSach;
@@ -55,27 +58,65 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
 
     MyDatabase database;
     ImageView imageView_test;
+    EditHeader editHeader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_man_hinh_chinh);
         database = new MyDatabase(getApplicationContext());
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-        //SharedPreferences.Editor editor = sharedPreferences.edit();
-        //editor.putBoolean("isLogin", false);
-        //editor.apply();
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("username", null);
+//        editor.putBoolean("isLogin", false);
+//        editor.apply();
         setTitle("");
         anhXa();
         SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
         String username = get_user.getString("username", null);
-        User user = database.checkRole(username);
-        if (user.getRole_user().equals("admin"))
+        if (username == null)
         {
-            replaceFragment(new ManHinhChinhAdmin());
+            TextView show_username2 = navigationView.getHeaderView(0).findViewById(R.id.username1);
+            TextView show_email2 = navigationView.getHeaderView(0).findViewById(R.id.email1);
+            show_email2.setText("Email");
+            show_username2.setText("Username");
+            if (currentFragment != FR_MAN_HINH_CHINH_USER)
+            {
+                replaceFragment(new ManHinhUser());
+                currentFragment = FR_MAN_HINH_CHINH_USER;
+            }
         }
         else
         {
-            replaceFragment(new ManHinhUser());
+            //LẤY USER NAME EMAIL SHOW LÊN HEADER
+            TextView show_username = navigationView.getHeaderView(0).findViewById(R.id.username1);
+            TextView show_email = navigationView.getHeaderView(0).findViewById(R.id.email1);
+            Cursor cursor = database.getUserByUsername(username);
+            int username_index = cursor.getColumnIndex(DBHelper.USERNAME_USER);
+            int email_index = cursor.getColumnIndex(DBHelper.EMAIL_USER);
+            cursor.moveToFirst();
+
+            show_username.setText(cursor.getString(username_index));
+            show_email.setText(cursor.getString(email_index));
+            cursor.close();
+
+
+            User user = database.checkRole(username);
+            if (user.getRole_user().equals("admin"))
+            {
+                if (currentFragment != FR_MAN_HINH_CHINH_ADMIN)
+                {
+                    replaceFragment(new ManHinhChinhAdmin());
+                    currentFragment = FR_MAN_HINH_CHINH_ADMIN;
+                }
+            }
+            else
+            {
+                if (currentFragment != FR_MAN_HINH_CHINH_USER)
+                {
+                    replaceFragment(new ManHinhUser());
+                    currentFragment = FR_MAN_HINH_CHINH_USER;
+                }
+            }
         }
         //ADD Toolbar
         setSupportActionBar(toolbar);
@@ -170,9 +211,16 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
             }
             else if (check_login)
             {
+                //Khi đăng xuất thì header ko còn hiện username và email
+                TextView show_username2 = navigationView.getHeaderView(0).findViewById(R.id.username1);
+                TextView show_email2 = navigationView.getHeaderView(0).findViewById(R.id.email1);
+                show_email2.setText("Email");
+                show_username2.setText("Username");
+
                 SharedPreferences sharedPreferences1 = getSharedPreferences("login", MODE_PRIVATE);
                 SharedPreferences.Editor editorr = sharedPreferences1.edit();
                 editorr.putBoolean("is_login", false);
+                editorr.putString("username", null);
                 editorr.apply();
                 Toast.makeText(ManHinhChinh.this, "Đã đăng xuất", Toast.LENGTH_LONG).show();
 

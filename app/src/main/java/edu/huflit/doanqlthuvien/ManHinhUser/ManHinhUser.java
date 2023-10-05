@@ -35,7 +35,6 @@ public class ManHinhUser extends Fragment {
         anhXa();
         database = new MyDatabase(getActivity());
         saches = new ArrayList<>();
-
         capNhatDuLieuDSach();
         return view;
     }

@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/avatar"
         android:src="@drawable/icon_avartar"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
