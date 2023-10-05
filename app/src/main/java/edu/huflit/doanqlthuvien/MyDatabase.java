@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import edu.huflit.doanqlthuvien.OOP.LoaiSach;
+import edu.huflit.doanqlthuvien.OOP.MuonTraSach;
 import edu.huflit.doanqlthuvien.OOP.NhanVien;
 import edu.huflit.doanqlthuvien.OOP.Sach;
 import edu.huflit.doanqlthuvien.OOP.User;
@@ -180,9 +181,25 @@ public class MyDatabase {
         values.put(DBHelper.LOAI_KH_USER, user.getLoai_kh_user());
         return database.insert(DBHelper.TABLE_USER, null, values);
     }
+    public long addMuonTraSach(MuonTraSach muonTraSach)
+    {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.MA_SACH_MTS, muonTraSach.getMa_sach_mts());
+        values.put(DBHelper.MA_USER_MTS, muonTraSach.getMa_user_mts());
+        values.put(DBHelper.NGAY_MUON_MTS, muonTraSach.getNgay_muon_mts());
+        values.put(DBHelper.NGAY_TRA_MTS, muonTraSach.getNgay_tra_mts());
+
+        return database.insert(DBHelper.TABLE_MUON_TRA, null, values);
+    }
     public Cursor getUserByUsername(String username)
     {
         String select = "SELECT * FROM " + DBHelper.TABLE_USER + " WHERE " + DBHelper.USERNAME_USER + " = " + "'" + username + "'";
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
+    public Cursor getSachByMaSach(int ma_sach)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_SACH + " WHERE " + DBHelper.MA_SACH_S + " = " + "'" + ma_sach + "'";
         Cursor cursor = database.rawQuery(select, null);
         return cursor;
     }

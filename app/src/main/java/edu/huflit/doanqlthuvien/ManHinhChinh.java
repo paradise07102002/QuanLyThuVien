@@ -9,6 +9,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -18,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,11 +37,14 @@ import edu.huflit.doanqlthuvien.fragment_admin.ManHinhChinhAdmin;
 import edu.huflit.doanqlthuvien.fragment_dau_sach.AddDauSach;
 import edu.huflit.doanqlthuvien.fragment_dau_sach.ManHinhDauSach;
 import edu.huflit.doanqlthuvien.fragment_dau_sach.UpdateDauSach;
+import edu.huflit.doanqlthuvien.fragment_muon_tra.ManHinhCreatePhieuMuon;
+import edu.huflit.doanqlthuvien.fragment_muon_tra.ManHinhMuonTra;
 import edu.huflit.doanqlthuvien.fragment_sach.AddSach;
 import edu.huflit.doanqlthuvien.fragment_sach.DetailSach;
 import edu.huflit.doanqlthuvien.fragment_sach.ManHinhSach;
 import edu.huflit.doanqlthuvien.fragment_sach.UpdateSach;
 import edu.huflit.doanqlthuvien.fragments.DangKy2;
+import edu.huflit.doanqlthuvien.fragments.DatePickerFragment;
 import edu.huflit.doanqlthuvien.fragments.HomeFragment;
 import edu.huflit.doanqlthuvien.fragments.Login2;
 
@@ -59,6 +66,10 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
     MyDatabase database;
     ImageView imageView_test;
     EditHeader editHeader;
+    //DATEPICKER
+    EditText ngay_muon;
+    ManHinhCreatePhieuMuon manHinhCreatePhieuMuon = (ManHinhCreatePhieuMuon) getSupportFragmentManager().findFragmentById(R.id.id_create_layout_phieu_muon);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +109,6 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
             show_username.setText(cursor.getString(username_index));
             show_email.setText(cursor.getString(email_index));
             cursor.close();
-
-
             User user = database.checkRole(username);
             if (user.getRole_user().equals("admin"))
             {
@@ -162,7 +171,6 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
-
         //Kiểm tra đăng nhập, nếu chưa thì hiện đăng nhập, ngược lại hiện đăng xuất trên menu
         //SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         Menu navigationMenu = navigationView.getMenu();
@@ -176,6 +184,8 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         {
             menuItem.setTitle("Đăng xuất");
         }
+        //DATEPICKER
+
     }
     public void anhXa()
     {
@@ -343,4 +353,21 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.hcontent_frame, login2);
         fragmentTransaction.commit();
     }
+    public void gotoMuonTra()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        ManHinhMuonTra manHinhMuonTra = new ManHinhMuonTra();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, manHinhMuonTra);
+        fragmentTransaction.commit();
+    }
+    public void gotoCreatePhieuMuon()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        ManHinhCreatePhieuMuon manHinhCreatePhieuMuon = new ManHinhCreatePhieuMuon();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, manHinhCreatePhieuMuon);
+        fragmentTransaction.commit();
+    }
+
 }
