@@ -91,6 +91,19 @@ public class ManHinhCreatePhieuMuon extends Fragment{
                     builder.create().show();
                     return;
                 }
+                if (checkTrangThaiSach() == false)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Sách hiện không có trong thư viện");
+                    builder.setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    builder.create().show();
+                    return;
+                }
                 else
                 {
 
@@ -106,6 +119,9 @@ public class ManHinhCreatePhieuMuon extends Fragment{
                     muonTraSach.setNgay_muon_mts(ngay_muon.getText().toString().trim());
                     muonTraSach.setNgay_tra_mts(ngay_tra.getText().toString().trim());
                     database.addMuonTraSach(muonTraSach);
+
+                    //Cập nhật lại trạng thái sách
+                    database.suaTrangThaiSach(Integer.parseInt(ma_sach_muon.getText().toString().trim()), 1);
                     //tHÔNG BÁO MƯỢN THÀNH CÔNG
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage("Tạo phiếu mượn thành công");
@@ -184,5 +200,20 @@ public class ManHinhCreatePhieuMuon extends Fragment{
             return false;
         }
         return true;
+    }
+    public boolean checkTrangThaiSach()
+    {
+        Cursor cursor = database.getSachByMaSach(Integer.parseInt(ma_sach_muon.getText().toString().trim()));
+        if (cursor != null)
+        {
+            int trang_thai_index = cursor.getColumnIndex(DBHelper.TRANG_THAI_S);
+            cursor.moveToFirst();
+            int tt = cursor.getInt(trang_thai_index);
+            if (tt == 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

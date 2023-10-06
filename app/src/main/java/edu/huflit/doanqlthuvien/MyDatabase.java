@@ -106,6 +106,12 @@ public class MyDatabase {
         contentValues.put(DBHelper.IMAGE_SACH, sach.getImage_sach());
         return database.update(DBHelper.TABLE_SACH, contentValues, DBHelper.MA_SACH_S + " = " + sach.getMa_sach_s(), null);
     }
+    public long suaTrangThaiSach(int ma_sach, int trang_thai)
+    {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.TRANG_THAI_S, trang_thai);
+        return database.update(DBHelper.TABLE_SACH, values, DBHelper.MA_SACH_S + " = " + ma_sach,null);
+    }
     public Cursor layDuLieuDauSachByID(int ma_dau_sach)
     {
         String select = "SELECT * FROM " + DBHelper.TABLE_LOAI_SACH + " WHERE " + DBHelper.MA_LOAI_SACH_LS + " = " + ma_dau_sach;
