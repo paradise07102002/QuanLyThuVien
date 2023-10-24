@@ -27,17 +27,17 @@ public class MyAdapterDanhSachTinNhan extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return TinNhan.chats.size();
+        return TinNhan.users.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return TinNhan.chats.get(i);
+        return TinNhan.users.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return TinNhan.chats.get(i).getId_tin_nhan();
+        return TinNhan.users.get(i).getId_user();
     }
 
     @Override
@@ -50,24 +50,8 @@ public class MyAdapterDanhSachTinNhan extends BaseAdapter {
 
         View view = inflater.inflate(R.layout.item_list_danh_sach_tin_nhan, null);
 
-
-        //lấy username khi đã có id user
-        //id người gửi
-        MyDatabase database = new MyDatabase(context);
-        User user = database.getUserByIDUser(TinNhan.chats.get(i).getId_nguoi_gui());
-        //id người nhận
-        User user1 = database.getUserByIDUser(TinNhan.chats.get(i).getId_nguoi_nhan());
-        //id người gửi là user
-        if (user.getId_user() != 1)
-        {
-            textView = (TextView) view.findViewById(R.id.tin_nhan_username);
-            textView.setText(user.getUsername_user());
-        }
-        else if (user1.getId_user() != 1)
-        {
-            textView = (TextView) view.findViewById(R.id.tin_nhan_username);
-            textView.setText(user.getUsername_user());
-        }
+        textView = (TextView) view.findViewById(R.id.tin_nhan_username);
+        textView.setText(TinNhan.users.get(i).getUsername_user());
 
         imageView = (ImageView) view.findViewById(R.id.tin_nhan_img);
 

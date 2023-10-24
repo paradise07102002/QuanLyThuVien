@@ -63,6 +63,7 @@ import edu.huflit.doanqlthuvien.fragments.HomeFragment;
 import edu.huflit.doanqlthuvien.fragments.Login2;
 import edu.huflit.doanqlthuvien.fragments.TinNhan;
 import edu.huflit.doanqlthuvien.fragments.TinNhan2;
+import edu.huflit.doanqlthuvien.fragments.TinNhan3;
 
 public class ManHinhChinh extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -556,6 +557,14 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         ThongTinTaiKhoan thongTinTaiKhoan = new ThongTinTaiKhoan();
 
         fragmentTransaction.replace(R.id.hcontent_frame, thongTinTaiKhoan);
+        fragmentTransaction.commit();
+    }
+    public void gotoChatAdmin()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        TinNhan3 tinNhan3 = new TinNhan3();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, tinNhan3);
         fragmentTransaction.commit();
     }
     //NHẮC HẸN TRẢ SÁCH

@@ -60,9 +60,10 @@ public class TinNhan2 extends Fragment {
                     id_user = get_id_user.getInt(id_index);
 
                     Chat chat = new Chat();
-                    chat.setId_nguoi_gui(id_user);
+                    chat.setId_chat_user(id_user);
                     //Lấy id admin
-                    chat.setId_nguoi_nhan(1);
+                    chat.setId_chat_admin(1);
+                    chat.setId_gui(id_user);
                     chat.setNoi_dung(edt_tin_nhan.getText().toString().trim());
                     //Lấy tời gian hiện tại
                     Calendar calendar = Calendar.getInstance();
@@ -119,8 +120,9 @@ public class TinNhan2 extends Fragment {
             int id_chat_index = cursor.getColumnIndex(DBHelper.ID_TIN_NHAN);
             int noi_dung_index = cursor.getColumnIndex(DBHelper.NOI_DUNG);
             int thoi_gian_index = cursor.getColumnIndex(DBHelper.THOI_GIAN_GUI);
-            int id_nguoi_gui_index = cursor.getColumnIndex(DBHelper.ID_NGUOI_GUI);
-            int id_nguoi_nhan_index = cursor.getColumnIndex(DBHelper.ID_NGUOI_NHAN);
+            int id_nguoi_gui_index = cursor.getColumnIndex(DBHelper.ID_CHAT_USER);
+            int id_nguoi_nhan_index = cursor.getColumnIndex(DBHelper.ID_CHAT_ADMIN);
+            int id_gui_index = cursor.getColumnIndex(DBHelper.ID_GUI);
             while (cursor.moveToNext())
             {
                 Chat chat = new Chat();
@@ -138,11 +140,15 @@ public class TinNhan2 extends Fragment {
                 }
                 if (id_nguoi_gui_index != -1)
                 {
-                    chat.setId_nguoi_gui(cursor.getInt(id_nguoi_gui_index));
+                    chat.setId_chat_user(cursor.getInt(id_nguoi_gui_index));
                 }
                 if (id_nguoi_nhan_index != -1)
                 {
-                    chat.setId_nguoi_nhan(cursor.getInt(id_nguoi_nhan_index));
+                    chat.setId_chat_admin(cursor.getInt(id_nguoi_nhan_index));
+                }
+                if (id_gui_index != -1)
+                {
+                    chat.setId_gui(cursor.getInt(id_gui_index));
                 }
                 chats.add(chat);
             }

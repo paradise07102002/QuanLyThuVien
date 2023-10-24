@@ -10,8 +10,9 @@ public class DBHelper extends SQLiteOpenHelper {
     //BẢNG TIN NHẮN
     public static final String TABLE_TIN_NHAN = "Chat";
     public static final String ID_TIN_NHAN = "id_tin_nhan";
-    public static final String ID_NGUOI_GUI = "id_nguoi_gui";
-    public static final String ID_NGUOI_NHAN = "id_nguoi_nhan";
+    public static final String ID_CHAT_USER = "id_chat_user";
+    public static final String ID_CHAT_ADMIN = "id_chat_admin";
+    public static final String ID_GUI = "id_gui";
     public static final String NOI_DUNG = "noi_dung";
     public static final String THOI_GIAN_GUI = "thoi_gian_gui";
     //BẢNG SÁCH
@@ -64,8 +65,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TAO_TABLE_TIN_NHAN = ""
             +"CREATE TABLE " + TABLE_TIN_NHAN + "( "
             + ID_TIN_NHAN + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + ID_NGUOI_GUI + " INTEGER NOT NULL, "
-            + ID_NGUOI_NHAN + " INTEGER NOT NULL, "
+            + ID_CHAT_USER + " INTEGER NOT NULL, "
+            + ID_CHAT_ADMIN + " INTEGER NOT NULL, "
+            + ID_GUI + " INTEGER NOT NULL, "
             + NOI_DUNG + " TEXT NOT NULL, "
             + THOI_GIAN_GUI + " TEXT NOT NULL) ";
     //TẠO BẢNG USER

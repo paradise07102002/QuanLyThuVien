@@ -2,8 +2,9 @@ package edu.huflit.doanqlthuvien.OOP;
 
 public class Chat {
     private int id_tin_nhan;
-    private int id_nguoi_gui;
-    private int id_nguoi_nhan;
+    private int id_chat_user;
+    private int id_chat_admin;
+    private int id_gui;
     private String noi_dung;
     private String thoi_gian_gui;
 
@@ -15,20 +16,28 @@ public class Chat {
         this.id_tin_nhan = id_tin_nhan;
     }
 
-    public int getId_nguoi_gui() {
-        return id_nguoi_gui;
+    public int getId_chat_user() {
+        return id_chat_user;
     }
 
-    public void setId_nguoi_gui(int id_nguoi_gui) {
-        this.id_nguoi_gui = id_nguoi_gui;
+    public void setId_chat_user(int id_chat_user) {
+        this.id_chat_user = id_chat_user;
     }
 
-    public int getId_nguoi_nhan() {
-        return id_nguoi_nhan;
+    public int getId_chat_admin() {
+        return id_chat_admin;
     }
 
-    public void setId_nguoi_nhan(int id_nguoi_nhan) {
-        this.id_nguoi_nhan = id_nguoi_nhan;
+    public void setId_chat_admin(int id_chat_admin) {
+        this.id_chat_admin = id_chat_admin;
+    }
+
+    public int getId_gui() {
+        return id_gui;
+    }
+
+    public void setId_gui(int id_gui) {
+        this.id_gui = id_gui;
     }
 
     public String getNoi_dung() {

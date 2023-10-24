@@ -59,8 +59,9 @@ public class MyDatabase {
     public long addChat(Chat chat)
     {
         ContentValues values = new ContentValues();
-        values.put(DBHelper.ID_NGUOI_GUI, chat.getId_nguoi_gui());
-        values.put(DBHelper.ID_NGUOI_NHAN, chat.getId_nguoi_nhan());
+        values.put(DBHelper.ID_CHAT_USER, chat.getId_chat_user());
+        values.put(DBHelper.ID_CHAT_ADMIN, chat.getId_chat_admin());
+        values.put(DBHelper.ID_GUI, chat.getId_gui());
         values.put(DBHelper.NOI_DUNG, chat.getNoi_dung());
         values.put(DBHelper.THOI_GIAN_GUI, chat.getThoi_gian_gui());
         return database.insert(DBHelper.TABLE_TIN_NHAN, null, values);
@@ -71,15 +72,18 @@ public class MyDatabase {
         Cursor cursor = database.query(DBHelper.TABLE_LOAI_SACH, cot, null, null, null, null, null);
         return cursor;
     }
-    public Cursor layDuLieuChat(int id_nguoi_gui)
+    public Cursor layDuLieuChat(int id_chat_user)
     {
-        String select = "SELECT * FROM " + DBHelper.TABLE_TIN_NHAN + " WHERE " + DBHelper.ID_NGUOI_GUI + " = " + id_nguoi_gui;
+        String select = "SELECT * FROM " + DBHelper.TABLE_TIN_NHAN + " WHERE " + DBHelper.ID_CHAT_USER + " = " + id_chat_user;
         Cursor cursor = database.rawQuery(select, null);
         return cursor;
     }
-    public Cursor layDuLieuFullChat()
+    public Cursor layDuLieuUserChat()
     {
-        String select = "SELECT * FROM " + DBHelper.TABLE_TIN_NHAN;
+//        String select = "SELECT * FROM " + DBHelper.TABLE_USER +" WHERE " + DBHelper.ID_USER + " = " + "(SELECT " + DBHelper.ID_NGUOI_GUI + " FROM " + DBHelper.TABLE_TIN_NHAN + ") OR "
+//                + DBHelper.ID_USER + " = " + "(SELECT " + DBHelper.ID_NGUOI_NHAN + " FROM " + DBHelper.TABLE_TIN_NHAN + ") AND " + DBHelper.ID_USER + " != " + 1;
+        String select = "SELECT * FROM " + DBHelper.TABLE_USER +" WHERE " + DBHelper.ID_USER + " IN " + "(SELECT " + DBHelper.ID_CHAT_USER + " FROM " + DBHelper.TABLE_TIN_NHAN + ") OR "
+                + DBHelper.ID_USER + " IN " + "(SELECT " + DBHelper.ID_CHAT_ADMIN + " FROM " + DBHelper.TABLE_TIN_NHAN + ") AND " + DBHelper.ID_USER + " != " + 1;
         Cursor cursor = database.rawQuery(select, null);
         return cursor;
     }

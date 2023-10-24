@@ -13,7 +13,9 @@
         android:src="@drawable/icon_back1" />
 
     <ListView
-        android:id="@+id/lv_tin_nhan"
+        android:dividerHeight="2dp"
+        android:divider="@android:color/transparent"
+        android:id="@+id/lv_tinnhan"
         android:background="@drawable/edit_edittext4"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="25dp"
