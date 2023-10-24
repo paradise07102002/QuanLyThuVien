@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/sach_muon_user_back"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="48dp"
+        android:layout_height="32dp"
+        android:src="@drawable/icon_back1"/>
+
+    <ListView
+        android:background="@drawable/edit_edittext2"
+        android:id="@+id/lv_sach_muon_user"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="345dp"
+        android:layout_height="600dp" />
+
+</LinearLayout>

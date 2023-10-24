@@ -103,6 +103,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="15dp"
-        android:text="Thêm sách"
+        android:text="Cập nhật"
         app:cornerRadius="7dp" />
 </LinearLayout>

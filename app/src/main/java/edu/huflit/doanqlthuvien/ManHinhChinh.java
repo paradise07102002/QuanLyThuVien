@@ -2,6 +2,7 @@ package edu.huflit.doanqlthuvien;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -14,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -30,8 +32,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import edu.huflit.doanqlthuvien.ManHinhUser.DoiMatKhau;
 import edu.huflit.doanqlthuvien.ManHinhUser.ManHinhUser;
+import edu.huflit.doanqlthuvien.ManHinhUser.QuanLySachMuonUser;
+import edu.huflit.doanqlthuvien.ManHinhUser.ThongTinTaiKhoan;
 import edu.huflit.doanqlthuvien.OOP.User;
+import edu.huflit.doanqlthuvien.edit.EditEmail;
+import edu.huflit.doanqlthuvien.edit.EditFullName;
+import edu.huflit.doanqlthuvien.edit.EditPhone;
 import edu.huflit.doanqlthuvien.fragment_admin.EditHeader;
 import edu.huflit.doanqlthuvien.fragment_admin.ManHinhChinhAdmin;
 import edu.huflit.doanqlthuvien.fragment_dau_sach.AddDauSach;
@@ -39,52 +51,53 @@ import edu.huflit.doanqlthuvien.fragment_dau_sach.ManHinhDauSach;
 import edu.huflit.doanqlthuvien.fragment_dau_sach.UpdateDauSach;
 import edu.huflit.doanqlthuvien.fragment_muon_tra.ManHinhCreatePhieuMuon;
 import edu.huflit.doanqlthuvien.fragment_muon_tra.ManHinhMuonTra;
+import edu.huflit.doanqlthuvien.fragment_muon_tra.QuanLySachMuon;
 import edu.huflit.doanqlthuvien.fragment_sach.AddSach;
 import edu.huflit.doanqlthuvien.fragment_sach.DetailSach;
 import edu.huflit.doanqlthuvien.fragment_sach.ManHinhSach;
+import edu.huflit.doanqlthuvien.fragment_sach.TimkiemSach;
 import edu.huflit.doanqlthuvien.fragment_sach.UpdateSach;
 import edu.huflit.doanqlthuvien.fragments.DangKy2;
 import edu.huflit.doanqlthuvien.fragments.DatePickerFragment;
 import edu.huflit.doanqlthuvien.fragments.HomeFragment;
 import edu.huflit.doanqlthuvien.fragments.Login2;
+import edu.huflit.doanqlthuvien.fragments.TinNhan;
+import edu.huflit.doanqlthuvien.fragments.TinNhan2;
 
 public class ManHinhChinh extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final int FR_HOME = 0;
     private static final int FR_MAN_HINH_CHINH_ADMIN = 1;
     private static final int FR_MAN_HINH_CHINH_USER = 2;
-    private static final int FR_LOGIN = 2;
+    private static final int FR_TIN_NHAN = 3;
+    private static final int FR_DOI_MK = 4;
+    private static final int FR_LOGIN = 5;
 
     private int currentFragment = FR_HOME;
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
-
     public static NavigationView navigationView;
     BottomNavigationView bottomNavigationView;
-
     MyDatabase database;
-    ImageView imageView_test;
-    EditHeader editHeader;
-    //DATEPICKER
-    EditText ngay_muon;
-    ManHinhCreatePhieuMuon manHinhCreatePhieuMuon = (ManHinhCreatePhieuMuon) getSupportFragmentManager().findFragmentById(R.id.id_create_layout_phieu_muon);
+    EditText edt_tim_kiem;
+    ImageView img_tim_kiem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_man_hinh_chinh);
+        setTitle("");
         database = new MyDatabase(getApplicationContext());
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("username", null);
-//        editor.putBoolean("isLogin", false);
-//        editor.apply();
-        setTitle("");
+
         anhXa();
+
+
         SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
         String username = get_user.getString("username", null);
-        if (username == null)
+        boolean is_login = get_user.getBoolean("is_login", false);
+        if (is_login == false)
         {
             TextView show_username2 = navigationView.getHeaderView(0).findViewById(R.id.username1);
             TextView show_email2 = navigationView.getHeaderView(0).findViewById(R.id.email1);
@@ -102,13 +115,15 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
             TextView show_username = navigationView.getHeaderView(0).findViewById(R.id.username1);
             TextView show_email = navigationView.getHeaderView(0).findViewById(R.id.email1);
             Cursor cursor = database.getUserByUsername(username);
-            int username_index = cursor.getColumnIndex(DBHelper.USERNAME_USER);
-            int email_index = cursor.getColumnIndex(DBHelper.EMAIL_USER);
-            cursor.moveToFirst();
 
-            show_username.setText(cursor.getString(username_index));
-            show_email.setText(cursor.getString(email_index));
-            cursor.close();
+                int username_index = cursor.getColumnIndex(DBHelper.USERNAME_USER);
+                int email_index = cursor.getColumnIndex(DBHelper.EMAIL_USER);
+                cursor.moveToFirst();
+
+                show_username.setText(cursor.getString(username_index));
+                show_email.setText(cursor.getString(email_index));
+                cursor.close();
+
             User user = database.checkRole(username);
             if (user.getRole_user().equals("admin"))
             {
@@ -126,6 +141,7 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                     currentFragment = FR_MAN_HINH_CHINH_USER;
                 }
             }
+            nhacHenTraSach();
         }
         //ADD Toolbar
         setSupportActionBar(toolbar);
@@ -145,28 +161,61 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                 {
                     SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
                     String username = get_user.getString("username", null);
-                    User user = database.checkRole(username);
-                    if (user.getRole_user().equals("admin"))
+                    boolean iss_login = get_user.getBoolean("is_login", false);
+                    if (iss_login == false)
                     {
-                        if (currentFragment != FR_MAN_HINH_CHINH_ADMIN)
-                        {
-                            currentFragment = FR_MAN_HINH_CHINH_ADMIN;
-                            replaceFragment(new ManHinhChinhAdmin());
-                        }
+
                     }
                     else
                     {
-                        if (currentFragment != FR_MAN_HINH_CHINH_USER)
+                        User user = database.checkRole(username);
+                        if (user.getRole_user().equals("admin"))
                         {
-                            currentFragment = FR_MAN_HINH_CHINH_USER;
+                            if (currentFragment != FR_MAN_HINH_CHINH_ADMIN)
+                            {
+                                currentFragment = FR_MAN_HINH_CHINH_ADMIN;
+                            }
+                            replaceFragment(new ManHinhChinhAdmin());
+                        }
+                        else
+                        {
+                            if (currentFragment != FR_MAN_HINH_CHINH_USER)
+                            {
+                                currentFragment = FR_MAN_HINH_CHINH_USER;
+                            }
                             replaceFragment(new ManHinhUser());
                         }
                     }
-//                    if (currentFragment != FR_MAN_HINH_CHINH_ADMIN)
-//                    {
-//                        replaceFragment(new ManHinhChinhAdmin());
-//                        currentFragment = FR_MAN_HINH_CHINH_ADMIN;
-//                    }
+                }
+                if (itemId == R.id.action_tin_nhan)
+                {
+                    SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
+                    String username = get_user.getString("username", null);
+                    boolean iss_login = get_user.getBoolean("is_login", false);
+                    if (iss_login == false)
+                    {
+                        Toast.makeText(getApplicationContext(), "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        User user = database.checkRole(username);
+                        if (user.getRole_user().equals("admin"))
+                        {
+                            if (currentFragment != FR_TIN_NHAN)
+                            {
+                                currentFragment = FR_TIN_NHAN;
+                            }
+                            replaceFragment(new TinNhan());
+                        }
+                        else
+                        {
+                            if (currentFragment != FR_TIN_NHAN)
+                            {
+                                currentFragment = FR_TIN_NHAN;
+                            }
+                            replaceFragment(new TinNhan2());
+                        }
+                    }
                 }
                 return true;
             }
@@ -184,6 +233,47 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         {
             menuItem.setTitle("Đăng xuất");
         }
+        //
+        Menu bottomnavigationMenu = bottomNavigationView.getMenu();
+        MenuItem menuItem_bot = bottomnavigationMenu.findItem(R.id.action_tin_nhan);
+        boolean iss_login = get_user.getBoolean("is_login", false);
+        if (iss_login == false)
+        {
+            menuItem_bot.setTitle("Hỗ trợ");
+        }
+        else
+        {
+            User user = database.checkRole(username);
+            if (user.getRole_user().equals("admin"))
+            {
+                menuItem_bot.setTitle("Tin nhắn");
+            }
+            else
+            {
+                menuItem_bot.setTitle("Hỗ trợ");
+            }
+        }
+
+
+        //TÌM KIẾM SÁCH
+        img_tim_kiem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (edt_tim_kiem.length() == 0)
+                {
+                    Toast.makeText(ManHinhChinh.this, "Vui lòng nhập thông tin tìm kiếm", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    String ten_sach_tim_kiem = edt_tim_kiem.getText().toString().trim();
+                    SharedPreferences name_sach = getSharedPreferences("search_sach", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = name_sach.edit();
+                    editor.putString("name_sach", ten_sach_tim_kiem);
+                    editor.apply();
+                    replaceFragment(new TimkiemSach());
+                }
+            }
+        });
         //DATEPICKER
 
     }
@@ -193,6 +283,9 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.htoolbar);
         navigationView = (NavigationView) findViewById(R.id.hnavigation_view);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
+
+        img_tim_kiem = (ImageView) findViewById(R.id.img_tim_kiem);
+        edt_tim_kiem = (EditText) findViewById(R.id.edt_tim_kiem);
     }
 
     @Override
@@ -206,6 +299,48 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         {
 
         }
+        else if (id == R.id.nav_tittle3)
+        {
+            SharedPreferences get_user = getSharedPreferences("login", Context.MODE_PRIVATE);
+            String username = get_user.getString("username", null);
+            if (username == null)
+            {
+                Toast.makeText(ManHinhChinh.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                replaceFragment(new QuanLySachMuonUser());
+            }
+        }else if (id == R.id.nav_tittle4)
+        {
+            SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
+            boolean isss_login = get_user.getBoolean("is_login", false);
+            if (isss_login == false)
+            {
+                Toast.makeText(ManHinhChinh.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                replaceFragment(new ThongTinTaiKhoan());
+            }
+        }
+        else if (id == R.id.nav_tittle5)
+        {
+            SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
+            boolean isss_login = get_user.getBoolean("is_login", false);
+            if (isss_login == false)
+            {
+                Toast.makeText(ManHinhChinh.this, "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                if (currentFragment != FR_DOI_MK)
+                {
+                    replaceFragment(new DoiMatKhau());
+                    currentFragment = FR_DOI_MK;
+                }
+            }
+        }
         else if (id == R.id.nav_tittle6)
         {
             SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
@@ -215,13 +350,13 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
             {
                 if (currentFragment != FR_LOGIN)
                 {
-                    replaceFragment(new Login2());
                     currentFragment = FR_LOGIN;
-                }
-                else
-                {
                     replaceFragment(new Login2());
                 }
+//                else
+//                {
+//                    replaceFragment(new Login2());
+//                }
             }
             else if (check_login)
             {
@@ -242,8 +377,14 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                 Menu navigationMenu = navigationView.getMenu();
                 MenuItem menuItem = navigationMenu.findItem(R.id.nav_tittle6);
                 menuItem.setTitle("Đăng nhập");
-                replaceFragment(new HomeFragment());
+                replaceFragment(new ManHinhUser());
                 currentFragment = FR_HOME;
+
+                SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
+
+                Menu bottomnavigationMenu = bottomNavigationView.getMenu();
+                MenuItem menuItem_bot = bottomnavigationMenu.findItem(R.id.action_tin_nhan);
+                menuItem_bot.setTitle("Hỗ trợ");
             }
         }
 
@@ -369,5 +510,117 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.hcontent_frame, manHinhCreatePhieuMuon);
         fragmentTransaction.commit();
     }
+    public void gotoQuanLyMuonTra()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        QuanLySachMuon quanLySachMuon = new QuanLySachMuon();
 
+        fragmentTransaction.replace(R.id.hcontent_frame, quanLySachMuon);
+        fragmentTransaction.commit();
+    }
+    public void gotoManHinhUser()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        ManHinhUser manHinhUser = new ManHinhUser();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, manHinhUser);
+        fragmentTransaction.commit();
+    }
+    public void gotoEditFullName()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        EditFullName editFullName = new EditFullName();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, editFullName);
+        fragmentTransaction.commit();
+    }
+    public void gotoEditEmail()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        EditEmail editEmail = new EditEmail();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, editEmail);
+        fragmentTransaction.commit();
+    }
+    public void gotoEditPhone()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        EditPhone editPhone = new EditPhone();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, editPhone);
+        fragmentTransaction.commit();
+    }
+    public void gotoThongTinTaiKhoan()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        ThongTinTaiKhoan thongTinTaiKhoan = new ThongTinTaiKhoan();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, thongTinTaiKhoan);
+        fragmentTransaction.commit();
+    }
+    //NHẮC HẸN TRẢ SÁCH
+    public void nhacHenTraSach()
+    {
+        //Lấy id của user
+        int id_user;
+        SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
+        Cursor get_id_user = database.getUserByUsername(get_user.getString("username", null));
+        if (get_id_user != null)
+        {
+            int id_index = get_id_user.getColumnIndex(DBHelper.ID_USER);
+            get_id_user.moveToFirst();
+            id_user = get_id_user.getInt(id_index);
+
+            //Lấy bảng mượn trả có chưa id của user này
+            Cursor cursor = database.getNgayTra(id_user);
+            if (cursor != null)
+            {
+                int ngay_tra_index = cursor.getColumnIndex(DBHelper.NGAY_TRA_MTS);
+                while (cursor.moveToNext())
+                {
+                    String ngay_tra = cursor.getString(ngay_tra_index);
+                    //Ép chuỗi về Date
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date_tra_sach;
+                    try {
+                        date_tra_sach = sdf.parse(ngay_tra);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //Lấy ngày tháng năm hiện tại
+                    Date currentDate = new Date();
+                    //So sánh ngày trả và ngày hiện tại
+                    int so_sanh = currentDate.compareTo(date_tra_sach);
+                    if (so_sanh == 0)
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ManHinhChinh.this);
+                        builder.setIcon(R.drawable.icon_question);
+                        builder.setMessage("Hôm nay là hạn trả sách");
+                        builder.setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        builder.create().show();
+                        return;
+                    }
+                    else if (so_sanh > 0)
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ManHinhChinh.this);
+
+                        builder.setMessage("Bạn đã trễ hẹn trả sách");
+                        builder.setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        builder.create().show();
+                        return;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.time.Year;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
@@ -151,10 +152,14 @@ public class ManHinhCreatePhieuMuon extends Fragment{
         //Ngày tháng năm hiện tại
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
-        ngay_muon.setText(day + "-" + month + "-" + year);
+        String a = String.format("%02d", 10);
+        String b = String.format("%02d", 10);
+        String c = String.format("%04d", 2023);
+
+        ngay_muon.setText(a + "-" + b + "-" + c);
         //Tính ngày trả
         Date date_hien_tai = new Date();
         Calendar day_tra = Calendar.getInstance();//lấy ngày hiện tại
@@ -163,9 +168,13 @@ public class ManHinhCreatePhieuMuon extends Fragment{
         day_tra.add(Calendar.DATE, 5);//Mượn 5 ngày sẽ trả sách
         //Lấy ngày Calendar
         int day1 = day_tra.get(Calendar.DAY_OF_MONTH);
-        int month1 = day_tra.get(Calendar.MONTH);
+        int month1 = day_tra.get(Calendar.MONTH) + 1;
         int year1 = day_tra.get(Calendar.YEAR);
-        ngay_tra.setText(day1 + "-" + month1 + "-" + year1);
+
+        String aa = String.format("%02d", 15);
+        String bb = String.format("%02d", 10);
+        String cc = String.format("%04d", 2023);
+        ngay_tra.setText(aa + "-" + bb + "-" + cc);
 
     }
     public boolean kiemTraNhapThongTin()

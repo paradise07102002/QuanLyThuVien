@@ -113,10 +113,10 @@ public class AddSach extends Fragment {
     {
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         //nén ảnh nhỏ lại
-        bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, true);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream);
         return stream.toByteArray();
     }
     //Click vào imageview mở thư viện chọn ảnh

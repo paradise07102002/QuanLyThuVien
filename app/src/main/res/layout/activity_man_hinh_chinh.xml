@@ -21,16 +21,30 @@
           android:theme="@style/ThemeOverlay.AppCompat.Light"
           android:layout_width="match_parent"
           android:layout_height="?attr/actionBarSize">
-        <EditText
+        <LinearLayout
             android:background="@drawable/edit_search"
-            android:hint="Tìm kiếm sách"
-            android:textSize="16dp"
-            android:textColorHint="@color/black"
-            android:drawableRight="@drawable/icon_search"
-            android:paddingRight="10dp"
-            android:paddingLeft="15dp"
-            android:layout_width="300dp"
-            android:layout_height="40dp"/>
+
+            android:layout_width="325dp"
+            android:layout_height="wrap_content">
+          <EditText
+              android:id="@+id/edt_tim_kiem"
+              android:background="@drawable/edit_search2"
+              android:hint="Tìm kiếm sách"
+              android:textSize="16dp"
+              android:textColorHint="@color/black"
+              android:layout_marginLeft="5dp"
+              android:layout_marginTop="8dp"
+              android:paddingRight="10dp"
+              android:paddingLeft="15dp"
+              android:layout_width="265dp"
+              android:layout_height="40dp"/>
+          <ImageView
+              android:id="@+id/img_tim_kiem"
+              android:layout_marginTop="5dp"
+              android:src="@drawable/icon_search"
+              android:layout_width="48dp"
+              android:layout_height="48dp"/>
+        </LinearLayout>
       </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
     <RelativeLayout

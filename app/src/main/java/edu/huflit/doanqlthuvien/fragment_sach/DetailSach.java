@@ -3,28 +3,43 @@ package edu.huflit.doanqlthuvien.fragment_sach;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
 
 import edu.huflit.doanqlthuvien.DBHelper;
 import edu.huflit.doanqlthuvien.ManHinhChinh;
+import edu.huflit.doanqlthuvien.ManHinhUser.ManHinhUser;
+import edu.huflit.doanqlthuvien.MyAdapter.MyAdapterBinhLuan;
+import edu.huflit.doanqlthuvien.MyAdapter.MyAdapterDMSach;
 import edu.huflit.doanqlthuvien.MyDatabase;
+import edu.huflit.doanqlthuvien.OOP.BinhLuanSach;
 import edu.huflit.doanqlthuvien.OOP.LoaiSach;
 import edu.huflit.doanqlthuvien.OOP.Sach;
+import edu.huflit.doanqlthuvien.OOP.User;
 import edu.huflit.doanqlthuvien.R;
+import edu.huflit.doanqlthuvien.fragment_admin.ManHinhChinhAdmin;
 
 public class DetailSach extends Fragment {
     View view;
@@ -33,6 +48,11 @@ public class DetailSach extends Fragment {
     ManHinhChinh manHinhChinh;
     ImageView back, img_sach;
     TextView dau_sach, ten_sach, tac_gia, nha_xb, nam_xb, trang_thai, mo_ta_sach;
+
+    EditText edt_binh_luan;
+    ImageView send;
+    public static ListView lv_show_binh_luan;
+    public static ArrayList<BinhLuanSach> binhLuanSaches;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,14 +60,78 @@ public class DetailSach extends Fragment {
         database = new MyDatabase(getActivity());
         manHinhChinh = (ManHinhChinh) getActivity();
         anhXa();
+        capNhatBinhLuan();
         setColorTextView();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                manHinhChinh.gotoManHinhSach();
+                SharedPreferences get_user = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+                String username = get_user.getString("username", null);
+                boolean is_login = get_user.getBoolean("is_login", false);
+
+                if (is_login == false)
+                {
+                    manHinhChinh.gotoManHinhUser();
+                }
+                else
+                {
+                    User user = database.checkRole(username);
+                    if (user.getRole_user().equals("admin"))
+                    {
+                        manHinhChinh.gotoManHinhSach();
+                    }
+                    else
+                    {
+                        manHinhChinh.gotoManHinhUser();
+                    }
+                }
             }
         });
         showDuLieuSach();
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences get_user = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+                boolean check_login = get_user.getBoolean("is_login", false);
+                if (check_login == false)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage("Đăng nhập để bình luận");
+                    builder.setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    builder.create().show();
+                }
+                else
+                {
+                    SharedPreferences lay_ma_sach = getActivity().getSharedPreferences("lay_ma_sach", Context.MODE_PRIVATE);
+                    int ma_sach = lay_ma_sach.getInt("ma_sach", 0);
+
+                    BinhLuanSach binhLuanSach = new BinhLuanSach();
+
+                    String username = get_user.getString("username", null);
+                    Cursor cursor = database.getUserByUsername(username);
+                    if (cursor != null)
+                    {
+                        int id_user_index = cursor.getColumnIndex(DBHelper.ID_USER);
+                        cursor.moveToFirst();
+                        binhLuanSach.setMa_user_binh_luan(cursor.getInt(id_user_index));
+                        binhLuanSach.setMa_sach_binh_luan(ma_sach);
+                        binhLuanSach.setNoi_dung_binh_luan(edt_binh_luan.getText().toString().trim());
+                        database.addBinhLuan(binhLuanSach);
+
+                        Toast.makeText(getActivity(), "Đã gửi bình luận", Toast.LENGTH_LONG).show();
+                        edt_binh_luan.setText("");
+                        capNhatBinhLuan();
+                    }
+
+                }
+            }
+        });
         return view;
     }
     public void anhXa()
@@ -63,7 +147,11 @@ public class DetailSach extends Fragment {
         nha_xb = (TextView) view.findViewById(R.id.detail_sach_nhaxb);
         nam_xb = (TextView) view.findViewById(R.id.detail_sach_namxb);
         trang_thai = (TextView) view.findViewById(R.id.detail_sach_tt);
-        mo_ta_sach = (TextView) view.findViewById(R.id.detail_sach_mo_ta);
+//        mo_ta_sach = (TextView) view.findViewById(R.id.detail_sach_mo_ta);
+
+        edt_binh_luan = (EditText) view.findViewById(R.id.edt_binh_luan);
+        send = (ImageView) view.findViewById(R.id.img_send);
+        lv_show_binh_luan = (ListView) view.findViewById(R.id.lv_show_bl);
     }
     public Sach layDuLieu()
     {
@@ -118,7 +206,7 @@ public class DetailSach extends Fragment {
         tac_gia.setText(sach.getTac_gia_s());
         nha_xb.setText(sach.getNha_xuat_ban_s());
         nam_xb.setText(Integer.toString(sach.getNam_xuat_ban_s()));
-        mo_ta_sach.setText(sach.getMo_ta_sach());
+//        mo_ta_sach.setText(sach.getMo_ta_sach());
         int tt = sach.getTrang_thai_s();
         if (tt == 0)
         {
@@ -161,4 +249,59 @@ public class DetailSach extends Fragment {
             }
         });
     }
+    //CẬP NHẬT BÌNH LUẬN
+    public void capNhatBinhLuan()
+    {
+        if (binhLuanSaches == null)
+        {
+            binhLuanSaches = new ArrayList<BinhLuanSach>();
+        }
+        else
+        {
+            binhLuanSaches.removeAll(binhLuanSaches);
+        }
+        SharedPreferences lay_ma_sach = getActivity().getSharedPreferences("lay_ma_sach", Context.MODE_PRIVATE);
+        int ma_sach = lay_ma_sach.getInt("ma_sach", 0);
+        database = new MyDatabase(getActivity());
+        Cursor cursor = database.layDuLieuBinhLuanByMaSach(ma_sach);
+        if (cursor != null)
+        {
+            int ma_bl_index = cursor.getColumnIndex(DBHelper.MA_BL);
+            int ma_user_index = cursor.getColumnIndex(DBHelper.MA_USER_BL);
+            int ma_sach_index = cursor.getColumnIndex(DBHelper.MA_SACH_BL);
+            int noi_dung_index = cursor.getColumnIndex(DBHelper.NOI_DUNG_BL);
+            while (cursor.moveToNext())
+            {
+                BinhLuanSach binhLuanSach = new BinhLuanSach();
+                if (ma_bl_index != -1)
+                {
+                    binhLuanSach.setMa_binh_luan(cursor.getInt(ma_bl_index));
+                }
+                if (ma_user_index != -1)
+                {
+                    binhLuanSach.setMa_user_binh_luan(cursor.getInt(ma_user_index));
+                }
+                if (ma_sach_index != -1)
+                {
+                    binhLuanSach.setMa_sach_binh_luan(cursor.getInt(ma_sach_index));
+                }
+                if (noi_dung_index != -1)
+                {
+                    binhLuanSach.setNoi_dung_binh_luan(cursor.getString(noi_dung_index));
+                }
+                binhLuanSaches.add(binhLuanSach);
+            }
+        }
+        if (binhLuanSaches != null)
+        {
+            lv_show_binh_luan.setAdapter(new MyAdapterBinhLuan(getActivity()));
+        }
+        lv_show_binh_luan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+    }
+
 }

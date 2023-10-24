@@ -32,8 +32,12 @@ public class ManHinhMuonTra extends Fragment {
                 manHinhChinh.gotoCreatePhieuMuon();
             }
         });
-
-
+        img_next_ql_phieu_muon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manHinhChinh.gotoQuanLyMuonTra();
+            }
+        });
         return view;
     }
     public void anhXa()

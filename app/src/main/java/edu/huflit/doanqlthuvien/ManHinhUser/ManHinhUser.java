@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 import edu.huflit.doanqlthuvien.DBHelper;
+import edu.huflit.doanqlthuvien.ManHinhChinh;
 import edu.huflit.doanqlthuvien.MyAdapter.MyAdapterDMSach;
 import edu.huflit.doanqlthuvien.MyAdapter.MyAdapterShowSach;
 import edu.huflit.doanqlthuvien.MyDatabase;
@@ -28,14 +29,37 @@ public class ManHinhUser extends Fragment {
     MyDatabase database;
     public static ListView listView;
     public static ArrayList<Sach> saches;
+    ManHinhChinh manHinhChinh;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.man_hinh_user, container, false);
         anhXa();
+        manHinhChinh = (ManHinhChinh) getActivity();
         database = new MyDatabase(getActivity());
         saches = new ArrayList<>();
         capNhatDuLieuDSach();
+
+        //Kiểm tra có sách mượn đến hẹn trả hay không
+        SharedPreferences get_user = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+        boolean check_login = get_user.getBoolean("is_login", false);
+        if (check_login)
+        {
+            int id_user;
+            String get_user_name = get_user.getString("username", null);
+            Cursor lay_id_user = database.getUserByUsername(get_user_name);
+            if (lay_id_user != null)
+            {
+                int id_user_index = lay_id_user.getColumnIndex(DBHelper.ID_USER);
+                lay_id_user.moveToFirst();
+                id_user = lay_id_user.getInt(id_user_index);
+
+                Cursor cursor = database.getNgayTraSach(id_user);
+
+            }
+
+
+        }
         return view;
     }
     public void anhXa()
@@ -90,48 +114,8 @@ public class ManHinhUser extends Fragment {
                 editor.putInt("ma_sach", ma_sach);
                 editor.apply();
 
-
+                manHinhChinh.gotoDetailSach();
             }
         });
-    }
-    public void capNhatListView()
-    {
-        if (saches == null)
-        {
-            saches = new ArrayList<Sach>();
-        }
-        else
-        {
-            saches.removeAll(saches);
-        }
-        database = new MyDatabase(getActivity());
-        Cursor cursor = database.layDuLieuSach();
-        if (cursor != null)
-        {
-            int ten_sach_index = cursor.getColumnIndex(DBHelper.TEN_SACH_S);
-            int ma_sach_index = cursor.getColumnIndex(DBHelper.MA_SACH_S);
-            int img_sach_index = cursor.getColumnIndex(DBHelper.IMAGE_SACH);
-            while (cursor.moveToNext())
-            {
-                Sach sach = new Sach();
-                if (ten_sach_index != -1)
-                {
-                    sach.setTen_sach_s(cursor.getString(ten_sach_index));
-                }
-                if (ma_sach_index != -1)
-                {
-                    sach.setMa_sach_s(cursor.getInt(ma_sach_index));
-                }
-                if (img_sach_index != -1)
-                {
-                    sach.setImage_sach(cursor.getBlob(img_sach_index));
-                }
-                saches.add(sach);
-            }
-        }
-        if (saches != null)
-        {
-            listView.setAdapter(new MyAdapterDMSach(getActivity()));
-        }
     }
 }

@@ -7,6 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
     private static final String TEN_DATABASE = "DATABASE";
 
+    //BẢNG TIN NHẮN
+    public static final String TABLE_TIN_NHAN = "Chat";
+    public static final String ID_TIN_NHAN = "id_tin_nhan";
+    public static final String ID_NGUOI_GUI = "id_nguoi_gui";
+    public static final String ID_NGUOI_NHAN = "id_nguoi_nhan";
+    public static final String NOI_DUNG = "noi_dung";
+    public static final String THOI_GIAN_GUI = "thoi_gian_gui";
     //BẢNG SÁCH
     public static final String TABLE_SACH = "Sach";
     public static final String IMAGE_SACH = "image_sach";
@@ -26,13 +33,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String MA_LOAI_SACH_LS = "ma_loai_sach_ls";
     public static final String TEN_LOAI_SACH_LS = "ten_loai_sach_ls";
 
-    //BẢNG THÀNH VIÊN
-//    public static final String TABLE_THANH_VIEN= "ThanhVien";
-//    public static final String MA_THANH_VIEN_TV = "ma_thanh_vien_tv";
-//    public static final String HO_TEN_TV = "ho_ten_tv";
-//    public static final String DIA_CHI_TV = "dia_chi_tv";
-//    public static final String SO_DIEN_THOAI_TV = "so_dien_thoai_tv";
-//    public static final String EMAIL_TV = "email_tv";
+    //BẢNG Bình Luận Sách
+    public static final String TABLE_BINH_LUAN = "BinhLuanSach";
+    public static final String MA_BL = "ma_binh_luan";
+    public static final String MA_SACH_BL = "ma_sach_binh_luan";
+    public static final String MA_USER_BL = "ma_user_binh_luan";
+    public static final String NOI_DUNG_BL = "noi_dung_binh_luan";
+
     //BẢNG USER
     public static final String TABLE_USER = "User";
     public static final String ID_USER = "id_user";
@@ -52,25 +59,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String NGAY_MUON_MTS = "ngay_muon_mts";
     public static final String NGAY_TRA_MTS = "ngay_tra_mts";
 
-    //BẢNG NHÂN VIÊN
-//    public static final String TABLE_NHAN_VIEN = "NhanVien";
-//
-//    public static final String USERNAME = "username";
-//
-//    public static final String PASSWORD = "password";
-//    public static final String MA_NHAN_VIEN_NV = "ma_nhan_vien_nv";
-//    public static final String TEN_NHAN_VIEN_NV = "ten_nhan_vien_nv";
-//    public static final String DIA_CHI_NV = "dia_chi_nv";
-//    public static final String SO_DIEN_THOAI_NV = "so_dien_thoai_nv";
-//
-//    public static final String EMAIL_NV = "email_nv";
-
-    //BẢNG LIÊN KẾT SÁCH VỚI THÀNH VIÊN
-//    public static final String TABLE_LIEN_KET = "LienKetSachThanhVien";
-//    public static final String MA_SACH_LK = "ma_sach_lk";
-//    public static final String MA_THANH_VIEN_LK = "ma_thanh_vien_lk";
-
     //TẠO DATABASE
+    //TẠO BẢNG TIN NHẮN
+    private static final String TAO_TABLE_TIN_NHAN = ""
+            +"CREATE TABLE " + TABLE_TIN_NHAN + "( "
+            + ID_TIN_NHAN + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + ID_NGUOI_GUI + " INTEGER NOT NULL, "
+            + ID_NGUOI_NHAN + " INTEGER NOT NULL, "
+            + NOI_DUNG + " TEXT NOT NULL, "
+            + THOI_GIAN_GUI + " TEXT NOT NULL) ";
     //TẠO BẢNG USER
     private static final String TAO_TABLE_USER = ""
             + "CREATE TABLE " + TABLE_USER + "( "
@@ -100,14 +97,15 @@ public class DBHelper extends SQLiteOpenHelper {
             + "CREATE TABLE " + TABLE_LOAI_SACH + "( "
             + MA_LOAI_SACH_LS + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + TEN_LOAI_SACH_LS + " TEXT NOT NULL )";
-    //TẠO TABLE THÀNH VIÊN
-//    private static final String TAO_TABLE_THANH_VIEN = ""
-//            + "CREATE TABLE " + TABLE_THANH_VIEN + "( "
-//            + MA_THANH_VIEN_TV + " INTEGER PRIMARY KEY, "
-//            + HO_TEN_TV + " TEXT NOT NULL, "
-//            + DIA_CHI_TV + " TEXT NOT NULL, "
-//            + SO_DIEN_THOAI_TV + " TEXT NOT NULL, "
-//            + EMAIL_TV + " TEXT NOT NULL )";
+
+    //TẠO BẢNG BÌNH LUẬN
+
+    private static final String TAO_TABLE_BINH_LUAN = ""
+            + "CREATE TABLE " + TABLE_BINH_LUAN + "( "
+            + MA_BL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + MA_SACH_BL + " INTEGER NOT NULL, "
+            + MA_USER_BL + " INTEGER NOT NULL, "
+            + NOI_DUNG_BL + " TEXT NOT NULL) ";
     //TẠO BẢNG MƯỢN TRẢ SÁCH
     private static final String TAO_TABLE_MUON_TRA = ""
             + "CREATE TABLE " + TABLE_MUON_TRA + "( "
@@ -118,24 +116,6 @@ public class DBHelper extends SQLiteOpenHelper {
             + NGAY_TRA_MTS + " TEXT, "
             + "FOREIGN KEY (" + MA_SACH_MTS +")" + " REFERENCES " + TABLE_SACH + "(" + MA_SACH_S + "), "
             + "FOREIGN KEY (" + MA_USER_MTS + ")" + " REFERENCES " + TABLE_USER + "(" + ID_USER + "))";
-    //TẠO BẢNG NHÂN VIÊN
-//    private static final String TAO_TABLE_NHAN_VIEN = ""
-//            + "CREATE TABLE " + TABLE_NHAN_VIEN + "( "
-//            + MA_NHAN_VIEN_NV + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-//            + USERNAME + " TEXT UNIQUE, "
-//            + PASSWORD + " TEXT NOT NULL, "
-//            + TEN_NHAN_VIEN_NV + " TEXT NOT NULL, "
-//            + DIA_CHI_NV + " TEXT NOT NULL, "
-//            + EMAIL_NV + " TEXT NOT NULL, "
-//            + SO_DIEN_THOAI_NV + " TEXT NOT NULL )";
-    //TẠO BẢNG LIÊN KẾT
-//    private static final String TAO_TABLE_LIEN_KET = ""
-//            + "CREATE TABLE " + TABLE_LIEN_KET + "( "
-//            + MA_SACH_LK + " INTEGER NOT NULL, "
-//            + MA_THANH_VIEN_LK + " INTEGER NOT NULL, "
-//            + "PRIMARY KEY(" + MA_SACH_LK + "," + MA_THANH_VIEN_LK + "), "
-//            + "FOREIGN KEY(" + MA_SACH_LK + ")" + " REFERENCES " + TABLE_SACH + "(" + MA_SACH_S + "), "
-//            + "FOREIGN KEY(" + MA_THANH_VIEN_LK + ")" + " REFERENCES " + TABLE_THANH_VIEN + "(" + MA_THANH_VIEN_TV + "))";
 
     public DBHelper(Context context)
     {
@@ -146,11 +126,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(TAO_TABLE_SACH);
         sqLiteDatabase.execSQL(TAO_TABLE_LOAI_SACH);
-//        sqLiteDatabase.execSQL(TAO_TABLE_THANH_VIEN);
-//        sqLiteDatabase.execSQL(TAO_TABLE_NHAN_VIEN);
         sqLiteDatabase.execSQL(TAO_TABLE_MUON_TRA);
-//        sqLiteDatabase.execSQL(TAO_TABLE_LIEN_KET);
         sqLiteDatabase.execSQL(TAO_TABLE_USER);
+        sqLiteDatabase.execSQL(TAO_TABLE_BINH_LUAN);
+        sqLiteDatabase.execSQL(TAO_TABLE_TIN_NHAN);
     }
 
     @Override

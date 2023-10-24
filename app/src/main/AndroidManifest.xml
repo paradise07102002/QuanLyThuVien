@@ -17,9 +17,8 @@
         <activity
             android:name=".ManHinhChinh2"
             android:exported="false" />
-        <activity
-            android:name=".ManHinhUser"
-            android:exported="false" />
+        <activity android:name="ManHinhUser"
+            android:exported="false"/>
         <activity
             android:name=".ManHinhChinh"
             android:exported="false" />

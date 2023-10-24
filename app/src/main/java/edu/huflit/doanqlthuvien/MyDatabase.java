@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import edu.huflit.doanqlthuvien.OOP.BinhLuanSach;
+import edu.huflit.doanqlthuvien.OOP.Chat;
 import edu.huflit.doanqlthuvien.OOP.LoaiSach;
 import edu.huflit.doanqlthuvien.OOP.MuonTraSach;
 import edu.huflit.doanqlthuvien.OOP.NhanVien;
@@ -54,10 +56,31 @@ public class MyDatabase {
         values.put(DBHelper.TEN_LOAI_SACH_LS, loaiSach.getLoai_sach_ls());
         return database.insert(DBHelper.TABLE_LOAI_SACH, null, values);
     }
+    public long addChat(Chat chat)
+    {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.ID_NGUOI_GUI, chat.getId_nguoi_gui());
+        values.put(DBHelper.ID_NGUOI_NHAN, chat.getId_nguoi_nhan());
+        values.put(DBHelper.NOI_DUNG, chat.getNoi_dung());
+        values.put(DBHelper.THOI_GIAN_GUI, chat.getThoi_gian_gui());
+        return database.insert(DBHelper.TABLE_TIN_NHAN, null, values);
+    }
     public Cursor layDuLieuDauSach()
     {
         String[] cot = {DBHelper.MA_LOAI_SACH_LS, DBHelper.TEN_LOAI_SACH_LS};
         Cursor cursor = database.query(DBHelper.TABLE_LOAI_SACH, cot, null, null, null, null, null);
+        return cursor;
+    }
+    public Cursor layDuLieuChat(int id_nguoi_gui)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_TIN_NHAN + " WHERE " + DBHelper.ID_NGUOI_GUI + " = " + id_nguoi_gui;
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
+    public Cursor layDuLieuFullChat()
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_TIN_NHAN;
+        Cursor cursor = database.rawQuery(select, null);
         return cursor;
     }
     public Cursor layDuLieuSach()
@@ -66,9 +89,19 @@ public class MyDatabase {
         Cursor cursor = database.query(DBHelper.TABLE_SACH, cot, null, null, null, null, null);
         return cursor;
     }
+    public Cursor layDuLieuBinhLuanByMaSach(int ma_sach)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_BINH_LUAN + " WHERE " + DBHelper.MA_SACH_BL + " = " + ma_sach;
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
     public long xoaDauSach(int ma_dau_sach)
     {
         return database.delete(DBHelper.TABLE_LOAI_SACH, DBHelper.MA_LOAI_SACH_LS + " = " + "'" + ma_dau_sach + "'", null);
+    }
+    public long xoaMuonTraSach(int ma_muon_tra)
+    {
+        return database.delete(DBHelper.TABLE_MUON_TRA, DBHelper.MA_MUON_TRA_MTS + " = " + "'" + ma_muon_tra + "'", null);
     }
     public long xoaSach(int ma_sach)
     {
@@ -121,6 +154,12 @@ public class MyDatabase {
     public Cursor layDuLieuSachByID(int ma_sach)
     {
         String select = "SELECT * FROM " + DBHelper.TABLE_SACH + " WHERE " + DBHelper.MA_SACH_S + " = " + ma_sach;
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
+    public Cursor layDuLieuSachByName(String name_sach)
+    {
+        String select = " SELECT * FROM " + DBHelper.TABLE_SACH + " WHERE " + DBHelper.TEN_SACH_S + " LIKE " + "'%" + name_sach + "%'";
         Cursor cursor = database.rawQuery(select, null);
         return cursor;
     }
@@ -187,6 +226,14 @@ public class MyDatabase {
         values.put(DBHelper.LOAI_KH_USER, user.getLoai_kh_user());
         return database.insert(DBHelper.TABLE_USER, null, values);
     }
+    public long addBinhLuan(BinhLuanSach binhLuanSach)
+    {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.MA_USER_BL, binhLuanSach.getMa_user_binh_luan());
+        values.put(DBHelper.MA_SACH_BL, binhLuanSach.getMa_sach_binh_luan());
+        values.put(DBHelper.NOI_DUNG_BL, binhLuanSach.getNoi_dung_binh_luan());
+        return database.insert(DBHelper.TABLE_BINH_LUAN, null, values);
+    }
     public long addMuonTraSach(MuonTraSach muonTraSach)
     {
         ContentValues values = new ContentValues();
@@ -197,11 +244,36 @@ public class MyDatabase {
 
         return database.insert(DBHelper.TABLE_MUON_TRA, null, values);
     }
+    public Cursor layDuLieuMuonTraSach()
+    {
+        String[] cot = {DBHelper.MA_MUON_TRA_MTS, DBHelper.MA_SACH_MTS, DBHelper.MA_USER_MTS};
+        Cursor cursor = database.query(DBHelper.TABLE_MUON_TRA, cot, null, null, null, null, null);
+        return cursor;
+    }
+    public Cursor layDuLieuMuonTraSachByMaUser(int ma_user)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_MUON_TRA + " WHERE " + DBHelper.MA_USER_MTS + " = " + "'" + ma_user + "'";
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
     public Cursor getUserByUsername(String username)
     {
         String select = "SELECT * FROM " + DBHelper.TABLE_USER + " WHERE " + DBHelper.USERNAME_USER + " = " + "'" + username + "'";
         Cursor cursor = database.rawQuery(select, null);
         return cursor;
+    }
+    public User getUserByIDUser(int ma_user)
+    {
+        User user = new User();
+        String select = "SELECT * FROM " + DBHelper.TABLE_USER + " WHERE " + DBHelper.ID_USER + " = " + ma_user;
+        Cursor cursor = database.rawQuery(select, null);
+        if (cursor != null)
+        {
+            int username_index = cursor.getColumnIndex(DBHelper.USERNAME_USER);
+            cursor.moveToFirst();
+            user.setUsername_user(cursor.getString(username_index));
+        }
+        return user;
     }
     public Cursor getSachByMaSach(int ma_sach)
     {
@@ -209,6 +281,7 @@ public class MyDatabase {
         Cursor cursor = database.rawQuery(select, null);
         return cursor;
     }
+
     public User checkRole(String username)
     {
         User user = new User();
@@ -220,6 +293,106 @@ public class MyDatabase {
             cursor.moveToFirst();
             user.setRole_user(cursor.getString(role_index));
         }
+        cursor.close();
         return user;
+    }
+    //kiểm tra mật khẩu cũ có trùng không
+    public boolean checkMatKhau(String username, String password)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_USER + " WHERE " + DBHelper.USERNAME_USER + " = " + "'" + username + "'" + " AND " + DBHelper.PASSWORD_USER + " = " + "'" + password + "'";
+        Cursor cursor = database.rawQuery(select, null);
+        if (cursor != null || cursor.getCount() > 0)
+        {
+            cursor.close();
+            return true;
+        }
+        else
+        {
+            cursor.close();
+            return false;
+        }
+    }
+    public boolean checkMK(String username, String password)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_USER + " WHERE " + DBHelper.USERNAME_USER + " = " + "'" + username + "'" + " AND " + DBHelper.PASSWORD_USER + " = " + "'" + password + "'";
+        Cursor cursor = database.rawQuery(select, null);
+        if (cursor.moveToFirst() == false)
+        {
+            cursor.close();
+            return false;//mk cũ sai
+        }
+        else
+        {
+            cursor.close();
+            return true;
+        }
+    }
+    public long doiMK(String username, String mat_khau_moi)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.PASSWORD_USER, mat_khau_moi);
+        return database.update(DBHelper.TABLE_USER, contentValues, DBHelper.USERNAME_USER +
+                " = " + "'" + username + "'", null);
+    }
+    //Kiểm tra người dùng có từng mượn sách hay chưa
+    public boolean checkMuonSach(int ma_user)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_MUON_TRA + " WHERE " + DBHelper.MA_USER_MTS + " = " + ma_user;
+        Cursor cursor = database.rawQuery(select, null);
+        if (cursor.moveToFirst())
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    //Kiểm tra admin tồn tại chưa
+    public boolean checkAdmin()
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_USER + " WHERE " + DBHelper.ROLE_USER + " = " + "'admin'";
+        Cursor cursor = database.rawQuery(select, null);
+        if (cursor.moveToFirst())
+        {
+            cursor.close();
+            return true;
+        }
+        cursor.close();
+        return false;
+    }
+    //Lấy ngày trả sách
+    public Cursor getNgayTraSach(int id_user)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_MUON_TRA + " WHERE " + DBHelper.MA_USER_MTS + " = " + id_user;
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
+    //Lấy ngày mượn
+    public Cursor getNgayTra(int ma_user)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_MUON_TRA + " WHERE " + DBHelper.MA_USER_MTS + " = " + ma_user;
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
+    public long editFullName(String username, String fullname)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.FULLNAME_USER, fullname);
+        return database.update(DBHelper.TABLE_USER, contentValues, DBHelper.USERNAME_USER +
+                " = " + "'" + username + "'", null);
+    }
+    public long editEmail(String username, String email)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.EMAIL_USER, email);
+        return database.update(DBHelper.TABLE_USER, contentValues, DBHelper.USERNAME_USER +
+                " = " + "'" + username + "'", null);
+    }
+    public long editPhone(String username, String phone)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.PHONE_USER, phone);
+        return database.update(DBHelper.TABLE_USER, contentValues, DBHelper.USERNAME_USER +
+                " = " + "'" + username + "'", null);
     }
 }
