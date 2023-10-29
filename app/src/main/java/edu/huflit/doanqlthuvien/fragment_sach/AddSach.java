@@ -100,7 +100,7 @@ public class AddSach extends Fragment {
 
         ten_sach = (EditText) view.findViewById(R.id.add_sach_name);
         ten_tg = (EditText) view.findViewById(R.id.add_sach_tg);
-        nha_xb = (EditText) view.findViewById(R.id.add_sach_name);
+        nha_xb = (EditText) view.findViewById(R.id.add_sach_nhaxb);
         nam_xb = (EditText) view.findViewById(R.id.add_sach_namxb);
         mo_ta_sach = (EditText) view.findViewById(R.id.add_sach_mo_ta);
         back = (ImageView) view.findViewById(R.id.add_sach_back);
