@@ -155,9 +155,9 @@ public class ManHinhCreatePhieuMuon extends Fragment{
         int month = calendar.get(Calendar.MONTH) + 1;
         int year = calendar.get(Calendar.YEAR);
 
-        String a = String.format("%02d", 10);
-        String b = String.format("%02d", 10);
-        String c = String.format("%04d", 2023);
+        String a = String.format("%02d", day);
+        String b = String.format("%02d", month);
+        String c = String.format("%04d", year);
 
         ngay_muon.setText(a + "-" + b + "-" + c);
         //Tính ngày trả
@@ -171,9 +171,9 @@ public class ManHinhCreatePhieuMuon extends Fragment{
         int month1 = day_tra.get(Calendar.MONTH) + 1;
         int year1 = day_tra.get(Calendar.YEAR);
 
-        String aa = String.format("%02d", 15);
-        String bb = String.format("%02d", 10);
-        String cc = String.format("%04d", 2023);
+        String aa = String.format("%02d", day1);
+        String bb = String.format("%02d", month1);
+        String cc = String.format("%04d", year1);
         ngay_tra.setText(aa + "-" + bb + "-" + cc);
 
     }

@@ -53,13 +53,21 @@ public class TimkiemSach extends Fragment {
                 SharedPreferences getUser = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
                 String get_uername = getUser.getString("username",null);
                 User user = database.checkRole(get_uername);
-                if (user.getRole_user().equals("admin"))
+                boolean is_login = getUser.getBoolean("is_login", false);
+                if (is_login == false)
                 {
-                    manHinhChinh.gotoManHinhChinhAdmin();
+                    manHinhChinh.gotoManHinhUser();
                 }
                 else
                 {
-                    manHinhChinh.gotoManHinhUser();
+                    if (user.getRole_user().equals("admin"))
+                    {
+                        manHinhChinh.gotoManHinhChinhAdmin();
+                    }
+                    else
+                    {
+                        manHinhChinh.gotoManHinhUser();
+                    }
                 }
             }
         });

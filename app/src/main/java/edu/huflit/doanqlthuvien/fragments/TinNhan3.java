@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import edu.huflit.doanqlthuvien.DBHelper;
+import edu.huflit.doanqlthuvien.ManHinhChinh;
 import edu.huflit.doanqlthuvien.MyAdapter.MyAdapterTinNhan;
 import edu.huflit.doanqlthuvien.MyAdapter.MyAdapterTinNhanAdmin;
 import edu.huflit.doanqlthuvien.MyDatabase;
@@ -33,13 +34,20 @@ public class TinNhan3 extends Fragment {
     MyDatabase database;
     public static ListView listView;
     public static ArrayList<Chat> chats;
+    ManHinhChinh manHinhChinh;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.tin_nhan3, container, false);
         database = new MyDatabase(getActivity());
+        manHinhChinh = (ManHinhChinh) getActivity();
         anhXa();
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manHinhChinh.gotoTinNhan();
+            }
+        });
         capNhatDuLieuChat();
         send.setOnClickListener(new View.OnClickListener() {
             @Override

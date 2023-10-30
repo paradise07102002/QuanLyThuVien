@@ -30,9 +30,6 @@ public class ChiTietMuonTra extends Fragment {
 
 
 
-
-
-
         return view;
     }
     public void anhXa()

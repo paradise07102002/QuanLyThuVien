@@ -567,6 +567,14 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.replace(R.id.hcontent_frame, tinNhan3);
         fragmentTransaction.commit();
     }
+    public void gotoTinNhan()
+    {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        TinNhan tinNhan = new TinNhan();
+
+        fragmentTransaction.replace(R.id.hcontent_frame, tinNhan);
+        fragmentTransaction.commit();
+    }
     //NHẮC HẸN TRẢ SÁCH
     public void nhacHenTraSach()
     {

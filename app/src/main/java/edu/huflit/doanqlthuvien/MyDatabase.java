@@ -31,10 +31,12 @@ public class MyDatabase {
         Cursor cursor = database.rawQuery(select, null);
         if (cursor.moveToFirst() == false)
         {
+            cursor.close();
             return false;//Ko đúng user or pass
         }
         else
         {
+            cursor.close();
             return true;
         }
     }
@@ -46,8 +48,10 @@ public class MyDatabase {
         Cursor cursor = database.rawQuery(select, null);
         if (cursor.moveToFirst())
         {
+            cursor.close();
             return true;//Mã loại sách tồn tại
         }
+        cursor.close();
         return false;//Mã loại sách không tồn tại
     }
     public long addLoaiSach(LoaiSach loaiSach)
@@ -117,10 +121,12 @@ public class MyDatabase {
         Cursor cursor = database.rawQuery(select, null);
         if (cursor.moveToFirst() == true)
         {
+            cursor.close();
             return true;//có tồn tại
         }
         else
         {
+            cursor.close();
             return false;
         }
     }
@@ -192,6 +198,7 @@ public class MyDatabase {
                 loaiSach.setMa_loai_sach_ls(cursor.getInt(ma_dau_sach_index));
             }
         }
+        cursor.close();
         return loaiSach;
     }
     //Hàm thêm sách
@@ -214,8 +221,10 @@ public class MyDatabase {
         Cursor cursor = database.rawQuery(select, null);
         if (cursor.moveToFirst())
         {
+            cursor.close();
             return true;
         }
+        cursor.close();
         return false;
     }
     public long addUser(User user)
@@ -277,6 +286,7 @@ public class MyDatabase {
             cursor.moveToFirst();
             user.setUsername_user(cursor.getString(username_index));
         }
+        cursor.close();
         return user;
     }
     public Cursor getSachByMaSach(int ma_sach)
@@ -291,10 +301,10 @@ public class MyDatabase {
         User user = new User();
         String select = "SELECT * FROM " + DBHelper.TABLE_USER + " WHERE " + DBHelper.USERNAME_USER + " = " + "'" + username + "'";
         Cursor cursor = database.rawQuery(select, null);
-        if (cursor != null)
+
+        if (cursor.moveToFirst())
         {
             int role_index = cursor.getColumnIndex(DBHelper.ROLE_USER);
-            cursor.moveToFirst();
             user.setRole_user(cursor.getString(role_index));
         }
         cursor.close();
@@ -345,9 +355,11 @@ public class MyDatabase {
         Cursor cursor = database.rawQuery(select, null);
         if (cursor.moveToFirst())
         {
+            cursor.close();
             return true;
         }
         else {
+            cursor.close();
             return false;
         }
     }
@@ -398,5 +410,18 @@ public class MyDatabase {
         contentValues.put(DBHelper.PHONE_USER, phone);
         return database.update(DBHelper.TABLE_USER, contentValues, DBHelper.USERNAME_USER +
                 " = " + "'" + username + "'", null);
+    }
+    //Kiểm tra nếu đầu sách có chứa sách
+    public boolean checkDauSach(int ma_dau_sach)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_SACH + " WHERE " + DBHelper.MA_LOAI_SACH_S + " = " + ma_dau_sach;
+        Cursor cursor = database.rawQuery(select, null);
+        if (cursor.moveToFirst())
+        {
+            cursor.close();
+            return true;// có sách
+        }
+        cursor.close();
+        return false;//không có sách
     }
 }

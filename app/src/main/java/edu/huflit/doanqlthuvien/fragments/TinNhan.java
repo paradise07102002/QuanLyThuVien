@@ -40,6 +40,12 @@ public class TinNhan extends Fragment {
         manHinhChinh = (ManHinhChinh) getActivity();
         database = new MyDatabase(getActivity());
         anhXa();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                manHinhChinh.gotoManHinhChinhAdmin();
+            }
+        });
         users = new ArrayList<User>();
         capNhatDuLieuChat();
         return view;
