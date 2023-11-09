@@ -72,7 +72,5 @@
             android:layout_marginTop="5dp"
             android:text="Đổi mật khẩu"
             app:cornerRadius="7dp" />
-
-
     </LinearLayout>
 </LinearLayout>

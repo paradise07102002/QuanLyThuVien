@@ -146,5 +146,4 @@ public class DoiMatKhau extends Fragment {
         }
         return true;
     }
-
 }
