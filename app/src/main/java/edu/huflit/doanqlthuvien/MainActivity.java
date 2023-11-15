@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         database = new MyDatabase(this);
         anhXa();
-        SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
-        SharedPreferences.Editor editor = get_user.edit();
-        editor.putBoolean("is_login", false);
-        editor.apply();
+//        SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = get_user.edit();
+//        editor.putBoolean("is_login", false);
+//        editor.apply();
         //Tạo tài khoản admin
         boolean checkAdmin  = database.checkAdmin();
         if (checkAdmin == false)

@@ -42,6 +42,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String MA_USER_BL = "ma_user_binh_luan";
     public static final String NOI_DUNG_BL = "noi_dung_binh_luan";
 
+    //BẢNG SÁCH YÊU THÍCH
+    public static final String TABLE_YEU_THICH = "YeuThich";
+    public static final String MA_YEU_THICH = "ma_yeu_thich";
+    public static final String MA_SACH_YT = "ma_sach_yt";
+    public static final String MA_USER_YT = "ma_user_yt";
     //BẢNG USER
     public static final String TABLE_USER = "User";
     public static final String ID_USER = "id_user";
@@ -120,6 +125,12 @@ public class DBHelper extends SQLiteOpenHelper {
             + NGAY_TRA_MTS + " TEXT, "
             + "FOREIGN KEY (" + MA_SACH_MTS +")" + " REFERENCES " + TABLE_SACH + "(" + MA_SACH_S + "), "
             + "FOREIGN KEY (" + MA_USER_MTS + ")" + " REFERENCES " + TABLE_USER + "(" + ID_USER + "))";
+    //TẠO BẢNG YÊU THÍCH
+    private static final String TAO_TABLE_YEU_THICH = ""
+            + "CREATE TABLE " + TABLE_YEU_THICH + "( "
+            + MA_YEU_THICH + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + MA_SACH_YT + " INTEGER NOT NULL, "
+            + MA_USER_YT + " INTEGER NOT NULL)";
 
     public DBHelper(Context context)
     {
@@ -134,6 +145,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(TAO_TABLE_USER);
         sqLiteDatabase.execSQL(TAO_TABLE_BINH_LUAN);
         sqLiteDatabase.execSQL(TAO_TABLE_TIN_NHAN);
+        sqLiteDatabase.execSQL(TAO_TABLE_YEU_THICH);
     }
 
     @Override

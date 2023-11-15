@@ -100,6 +100,7 @@ public class TinNhan extends Fragment {
                 editor.apply();
                 manHinhChinh.gotoChatAdmin();
                 database.daXemTinNhan(users.get(i).getId_user());
+                manHinhChinh.updateMessage();
             }
         });
     }

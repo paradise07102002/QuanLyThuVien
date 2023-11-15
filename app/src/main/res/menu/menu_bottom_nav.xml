@@ -6,5 +6,5 @@
     <item android:id="@+id/action_tin_nhan" android:title="Tin nhắn"
         android:icon="@drawable/icon_chat"
         android:actionLayout="@layout/icon_notification"/>
-    <item android:id="@+id/action3" android:title="tille_bottom3" android:icon="@drawable/icon_user2"/>
+    <item android:id="@+id/action_like" android:title="Yêu thích" android:icon="@drawable/icon_like"/>
 </menu>

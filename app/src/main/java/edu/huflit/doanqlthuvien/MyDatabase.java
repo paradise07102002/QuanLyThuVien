@@ -12,6 +12,7 @@ import edu.huflit.doanqlthuvien.OOP.MuonTraSach;
 import edu.huflit.doanqlthuvien.OOP.NhanVien;
 import edu.huflit.doanqlthuvien.OOP.Sach;
 import edu.huflit.doanqlthuvien.OOP.User;
+import edu.huflit.doanqlthuvien.OOP.YeuThich;
 
 public class MyDatabase {
     SQLiteDatabase database;
@@ -445,5 +446,38 @@ public class MyDatabase {
         contentValues.put(DBHelper.COUNT_NEW_MESSAGE, 0);
         return database.update(DBHelper.TABLE_TIN_NHAN, contentValues, DBHelper.ID_GUI + " = " + "'" + id_user + "'", null);
     }
+    //Lấy dữ liệu yêu thích
+    public Cursor layDuLieuYeuThichByIDUser(int id_user)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_YEU_THICH + " WHERE " + DBHelper.MA_USER_YT + " = " + "'" + id_user + "'";
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
+    //Xóa yêu thích
+    public long xoaYeuThich(int ma_yeu_thich)
+    {
+        return database.delete(DBHelper.TABLE_YEU_THICH, DBHelper.MA_YEU_THICH + " = " + "'" + ma_yeu_thich + "'", null);
+    }
+    //Kiểm tra xe sách đã có trong yêu thích chưa, nếu rồi thì không thêm vào yêu thích đc
+    public boolean checkYeuThich(int ma_sach, int ma_user)
+    {
+        String select = "SELECT * FROM " + DBHelper.TABLE_YEU_THICH + " WHERE "
+                + DBHelper.MA_SACH_YT + " = " + "'" + ma_sach + "'"
+                + " AND " + DBHelper.MA_USER_YT + " = " + "'" + ma_user + "'";
+        Cursor cursor = database.rawQuery(select, null);
+        if (cursor.moveToFirst())
+        {
+            return true;//ĐÃ YÊU THÍCH RỒI
+        }
+        return false;//CHƯA
+    }
+    //THÊM YÊU THÍCH
+    public long addYeuThich(YeuThich yeuThich)
+    {
+        ContentValues values = new ContentValues();
+        values.put(DBHelper.MA_SACH_YT, yeuThich.getMa_sach_yt());
+        values.put(DBHelper.MA_USER_YT, yeuThich.getMa_user_yt());
 
+        return database.insert(DBHelper.TABLE_YEU_THICH, null, values);
+    }
 }

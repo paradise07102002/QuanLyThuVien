@@ -1,6 +1,7 @@
 package edu.huflit.doanqlthuvien.ManHinhUser;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -9,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import edu.huflit.doanqlthuvien.MyAdapter.MyAdapterDMSach;
 import edu.huflit.doanqlthuvien.MyAdapter.MyAdapterShowSach;
 import edu.huflit.doanqlthuvien.MyDatabase;
 import edu.huflit.doanqlthuvien.OOP.Sach;
+import edu.huflit.doanqlthuvien.OOP.YeuThich;
 import edu.huflit.doanqlthuvien.R;
 
 public class ManHinhUser extends Fragment {
@@ -55,10 +59,7 @@ public class ManHinhUser extends Fragment {
                 id_user = lay_id_user.getInt(id_user_index);
 
                 Cursor cursor = database.getNgayTraSach(id_user);
-
             }
-
-
         }
         return view;
     }
@@ -114,7 +115,55 @@ public class ManHinhUser extends Fragment {
                 editor.putInt("ma_sach", ma_sach);
                 editor.apply();
 
-                manHinhChinh.gotoDetailSach();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Sách");
+                builder.setNegativeButton("Xem chi tết", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        manHinhChinh.gotoDetailSach();
+                    }
+                });
+                builder.setPositiveButton("Thêm vào yêu thích", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SharedPreferences check_login = getContext().getSharedPreferences("login", Context.MODE_PRIVATE);
+                        if (check_login.getBoolean("is_login", false))
+                        {
+                            //Lấy mã user
+                            int id_user, id_sach;
+                            SharedPreferences get_user = getContext().getSharedPreferences("login", Context.MODE_PRIVATE);
+                            String get_user_name = get_user.getString("username", null);
+                            Cursor lay_id_user = database.getUserByUsername(get_user_name);
+
+                            int id_user_index = lay_id_user.getColumnIndex(DBHelper.ID_USER);
+                            lay_id_user.moveToFirst();
+                            id_user = lay_id_user.getInt(id_user_index);
+                            //Lấy mã sách
+                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("lay_ma_sach", Context.MODE_PRIVATE);
+                            id_sach = sharedPreferences.getInt("ma_sach", -1);
+
+                            //KIỂM TRA SÁCH ĐÃ ĐƯỢC THÊM VÀO YÊU THÍCH CHƯA
+                            boolean check_yt = database.checkYeuThich(id_sach, id_user);
+                            if (check_yt == true)
+                            {
+                                Toast.makeText(getActivity(), "Đã có trong yêu thích", Toast.LENGTH_LONG).show();
+                            }
+                            else
+                            {
+                                YeuThich yeuThich = new YeuThich();
+                                yeuThich.setMa_sach_yt(id_sach);
+                                yeuThich.setMa_user_yt(id_user);
+                                database.addYeuThich(yeuThich);
+                                Toast.makeText(getActivity(), "Đã thêm vào yêu thích", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                builder.create().show();
             }
         });
     }

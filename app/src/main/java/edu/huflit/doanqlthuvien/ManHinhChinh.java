@@ -44,6 +44,7 @@ import edu.huflit.doanqlthuvien.ManHinhUser.ManHinhUser;
 import edu.huflit.doanqlthuvien.ManHinhUser.QuanLySachMuonUser;
 import edu.huflit.doanqlthuvien.ManHinhUser.ThongTinTaiKhoan;
 import edu.huflit.doanqlthuvien.OOP.User;
+import edu.huflit.doanqlthuvien.YeuThich.MH_YeuThich;
 import edu.huflit.doanqlthuvien.edit.EditEmail;
 import edu.huflit.doanqlthuvien.edit.EditFullName;
 import edu.huflit.doanqlthuvien.edit.EditPhone;
@@ -222,6 +223,19 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 }
+                if (itemId == R.id.action_like)
+                {
+                    SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
+                    boolean iss_login = get_user.getBoolean("is_login", false);
+                    if (iss_login == false)
+                    {
+                        Toast.makeText(getApplicationContext(), "Bạn chưa đăng nhập", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        replaceFragment(new MH_YeuThich());
+                    }
+                }
                 return true;
             }
         });
@@ -300,15 +314,8 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_tittle1)
-        {
 
-        }
-        else if (id == R.id.nav_tittle2)
-        {
-
-        }
-        else if (id == R.id.nav_tittle3)
+        if (id == R.id.nav_tittle3)
         {
             SharedPreferences get_user = getSharedPreferences("login", Context.MODE_PRIVATE);
             String username = get_user.getString("username", null);
@@ -403,7 +410,24 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("is_login", false))
+        {
+            Cursor cursor = database.getUserByUsername(sharedPreferences.getString("username", null));
+            cursor.moveToFirst();
+            int role_index = cursor.getColumnIndex(DBHelper.ROLE_USER);
+            String role = cursor.getString(role_index);
+            if (role.equals("admin"))
+            {
+                Menu menuu = navigationView.getMenu();
+                MenuItem menuItem = menuu.findItem(R.id.nav_tittle3);
+                menuItem.setVisible(false);
+            }
+        }
+        return true;
+    }
     @Override
     public void onBackPressed() {
         //Nếu drawer đang ở thì khi ấn back sẽ back
@@ -664,5 +688,10 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
             }
         }
         return count_chat;
+    }
+    public void updateMessage()
+    {
+        show_new_message.setText(Integer.toString(countNewMessage()));
+
     }
 }
