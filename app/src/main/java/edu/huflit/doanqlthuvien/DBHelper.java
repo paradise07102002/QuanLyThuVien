@@ -15,6 +15,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String ID_GUI = "id_gui";
     public static final String NOI_DUNG = "noi_dung";
     public static final String THOI_GIAN_GUI = "thoi_gian_gui";
+    public static final String COUNT_NEW_MESSAGE = "count_new_message";
     //BẢNG SÁCH
     public static final String TABLE_SACH = "Sach";
     public static final String IMAGE_SACH = "image_sach";
@@ -69,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
             + ID_CHAT_ADMIN + " INTEGER NOT NULL, "
             + ID_GUI + " INTEGER NOT NULL, "
             + NOI_DUNG + " TEXT NOT NULL, "
+            + COUNT_NEW_MESSAGE + " INTEGER, "
             + THOI_GIAN_GUI + " TEXT NOT NULL) ";
     //TẠO BẢNG USER
     private static final String TAO_TABLE_USER = ""

@@ -27,5 +27,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="username" />
+        <TextView
+            android:id="@+id/tin_nhan_new_chat"
+            android:layout_marginTop="17dp"
+            android:layout_marginLeft="140dp"
+            android:background="@drawable/badge_shape"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:layout_width="25dp"
+            android:layout_height="25dp"/>
     </LinearLayout>
 </LinearLayout>

@@ -86,7 +86,7 @@ public class TinNhan2 extends Fragment {
 
                     String thoi_gian = day + "-" + month + "-" + year;
                     chat.setThoi_gian_gui(thoi_gian);
-
+                    chat.setCount_new_messsage(1);
                     database.addChat(chat);
                     capNhatDuLieuChat();
                     edt_tin_nhan.setText("");

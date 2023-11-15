@@ -7,6 +7,7 @@ public class Chat {
     private int id_gui;
     private String noi_dung;
     private String thoi_gian_gui;
+    private int count_new_messsage;
 
     public int getId_tin_nhan() {
         return id_tin_nhan;
@@ -54,5 +55,13 @@ public class Chat {
 
     public void setThoi_gian_gui(String thoi_gian_gui) {
         this.thoi_gian_gui = thoi_gian_gui;
+    }
+
+    public int getCount_new_messsage() {
+        return count_new_messsage;
+    }
+
+    public void setCount_new_messsage(int count_new_messsage) {
+        this.count_new_messsage = count_new_messsage;
     }
 }

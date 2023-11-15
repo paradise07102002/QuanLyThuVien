@@ -40,6 +40,4 @@ dependencies {
 
     implementation("com.squareup.picasso:picasso:2.5.2")
     implementation("androidx.sqlite:sqlite:2.1.0")
-
-
 }

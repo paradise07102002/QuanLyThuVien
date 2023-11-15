@@ -99,6 +99,7 @@ public class TinNhan extends Fragment {
                 editor.putInt("id_nguoi_gui", users.get(i).getId_user());
                 editor.apply();
                 manHinhChinh.gotoChatAdmin();
+                database.daXemTinNhan(users.get(i).getId_user());
             }
         });
     }

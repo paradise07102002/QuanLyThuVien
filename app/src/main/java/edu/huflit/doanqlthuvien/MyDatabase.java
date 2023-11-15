@@ -68,6 +68,7 @@ public class MyDatabase {
         values.put(DBHelper.ID_GUI, chat.getId_gui());
         values.put(DBHelper.NOI_DUNG, chat.getNoi_dung());
         values.put(DBHelper.THOI_GIAN_GUI, chat.getThoi_gian_gui());
+        values.put(DBHelper.COUNT_NEW_MESSAGE, chat.getCount_new_messsage());
         return database.insert(DBHelper.TABLE_TIN_NHAN, null, values);
     }
     public Cursor layDuLieuDauSach()
@@ -424,4 +425,25 @@ public class MyDatabase {
         cursor.close();
         return false;//không có sách
     }
+    //Lấy số lượng tin nhắn mới
+    public Cursor getCountMessage()
+    {
+        String select = "SELECT " + DBHelper.COUNT_NEW_MESSAGE + " FROM " + DBHelper.TABLE_TIN_NHAN;
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
+    public Cursor getCountMessageUserSendAdmin(int id_user)
+    {
+        String select = "SELECT " + DBHelper.COUNT_NEW_MESSAGE + " FROM " + DBHelper.TABLE_TIN_NHAN + " WHERE " + DBHelper.ID_GUI + " = " + "'" + id_user + "'";
+        Cursor cursor = database.rawQuery(select, null);
+        return cursor;
+    }
+    public long daXemTinNhan(int id_user)
+    {
+//        String str = "UPDATE + " + DBHelper.TABLE_TIN_NHAN + " SET " + DBHelper.COUNT_NEW_MESSAGE + " = " + 0 + " WHERE " + DBHelper.ID_GUI + " = " + "'" +  id_user + "'";
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.COUNT_NEW_MESSAGE, 0);
+        return database.update(DBHelper.TABLE_TIN_NHAN, contentValues, DBHelper.ID_GUI + " = " + "'" + id_user + "'", null);
+    }
+
 }

@@ -86,7 +86,7 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
     MyDatabase database;
     EditText edt_tim_kiem;
     ImageView img_tim_kiem;
-
+    TextView show_new_message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +96,6 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
 
         anhXa();
-
 
         SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
         String username = get_user.getString("username", null);
@@ -192,6 +191,9 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                 }
                 if (itemId == R.id.action_tin_nhan)
                 {
+                    //
+
+                    //
                     SharedPreferences get_user = getSharedPreferences("login", MODE_PRIVATE);
                     String username = get_user.getString("username", null);
                     boolean iss_login = get_user.getBoolean("is_login", false);
@@ -231,6 +233,7 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         if (check_login == false)
         {
             menuItem.setTitle("Đăng nhập");
+            show_new_message.setVisibility(View.INVISIBLE);
         }
         else
         {
@@ -239,6 +242,7 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
         //
         Menu bottomnavigationMenu = bottomNavigationView.getMenu();
         MenuItem menuItem_bot = bottomnavigationMenu.findItem(R.id.action_tin_nhan);
+
         boolean iss_login = get_user.getBoolean("is_login", false);
         if (iss_login == false)
         {
@@ -250,6 +254,9 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
             if (user.getRole_user().equals("admin"))
             {
                 menuItem_bot.setTitle("Tin nhắn");
+                //show số lượng tin nhắn mới
+                int countt = countNewMessage();
+                show_new_message.setText(Integer.toString(countt));
             }
             else
             {
@@ -277,8 +284,6 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        //DATEPICKER
-
     }
     public void anhXa()
     {
@@ -289,6 +294,7 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
 
         img_tim_kiem = (ImageView) findViewById(R.id.img_tim_kiem);
         edt_tim_kiem = (EditText) findViewById(R.id.edt_tim_kiem);
+        show_new_message = (TextView) findViewById(R.id.show_new_message);
     }
 
     @Override
@@ -388,6 +394,8 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                 Menu bottomnavigationMenu = bottomNavigationView.getMenu();
                 MenuItem menuItem_bot = bottomnavigationMenu.findItem(R.id.action_tin_nhan);
                 menuItem_bot.setTitle("Hỗ trợ");
+
+                show_new_message.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -641,5 +649,20 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
+    }
+    public int countNewMessage()
+    {
+        int count_chat = 0;
+        //Lấy số lượng tin nhắn mới
+        Cursor cursor = database.getCountMessage();
+        if (cursor != null)
+        {
+            int new_message_index = cursor.getColumnIndex(DBHelper.COUNT_NEW_MESSAGE);
+            while (cursor.moveToNext())
+            {
+                count_chat = count_chat + cursor.getInt(new_message_index);
+            }
+        }
+        return count_chat;
     }
 }
