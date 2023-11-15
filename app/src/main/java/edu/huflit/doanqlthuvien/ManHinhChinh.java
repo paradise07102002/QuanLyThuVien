@@ -424,6 +424,7 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
                 Menu menuu = navigationView.getMenu();
                 MenuItem menuItem = menuu.findItem(R.id.nav_tittle3);
                 menuItem.setVisible(false);
+
             }
         }
         return true;
