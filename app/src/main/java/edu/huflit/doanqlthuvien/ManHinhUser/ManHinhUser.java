@@ -1,6 +1,7 @@
 package edu.huflit.doanqlthuvien.ManHinhUser;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -114,7 +116,21 @@ public class ManHinhUser extends Fragment {
                 editor.putInt("ma_sach", ma_sach);
                 editor.apply();
 
-                manHinhChinh.gotoDetailSach();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Sách");
+                builder.setNegativeButton("Xem chi tết", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        manHinhChinh.gotoDetailSach();
+                    }
+                });
+                builder.setPositiveButton("Thêm vào yêu thích", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                builder.create().show();
             }
         });
     }

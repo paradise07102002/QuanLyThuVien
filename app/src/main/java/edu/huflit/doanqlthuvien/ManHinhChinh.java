@@ -292,15 +292,7 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_tittle1)
-        {
-
-        }
-        else if (id == R.id.nav_tittle2)
-        {
-
-        }
-        else if (id == R.id.nav_tittle3)
+        if (id == R.id.nav_tittle3)
         {
             SharedPreferences get_user = getSharedPreferences("login", Context.MODE_PRIVATE);
             String username = get_user.getString("username", null);
@@ -391,6 +383,22 @@ public class ManHinhChinh extends AppCompatActivity implements NavigationView.On
 
         //Đóng drawer
         drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        Cursor cursor = database.getUserByUsername(sharedPreferences.getString("username", null));
+        cursor.moveToFirst();
+        int role_index = cursor.getColumnIndex(DBHelper.ROLE_USER);
+        String role = cursor.getString(role_index);
+        if (role.equals("admin"))
+        {
+            Menu menuu = navigationView.getMenu();
+            MenuItem menuItem = menuu.findItem(R.id.nav_tittle3);
+            menuItem.setVisible(false);
+        }
         return true;
     }
 

@@ -67,12 +67,14 @@ public class UpdateSach extends Fragment {
             int ten_tg_index = cursor.getColumnIndex(DBHelper.TAC_GIA_S);
             int nha_xb_index = cursor.getColumnIndex(DBHelper.NHA_XUAT_BAN_S);
             int nam_xb_index = cursor.getColumnIndex(DBHelper.NAM_XUAT_BAN_S);
+            int mo_ta_index = cursor.getColumnIndex(DBHelper.MO_TA_SACH);
 
             cursor.moveToFirst();
             ten_sach.setText(cursor.getString(ten_sach_index));
             ten_tg.setText(cursor.getString(ten_tg_index));
             nha_xb.setText(cursor.getString(nha_xb_index));
             nam_xb.setText(Integer.toString(cursor.getInt(nam_xb_index)));
+            mo_ta_sach.setText(cursor.getString(mo_ta_index));
         }
         cursor.close();
 
@@ -219,4 +221,5 @@ public class UpdateSach extends Fragment {
             loadImageFromUri(uri);
         }
     }
+
 }

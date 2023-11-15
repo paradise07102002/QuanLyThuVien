@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_admin_1" android:title="Trang chủ" android:icon="@drawable/icon_book"/>
-    <item android:id="@+id/action_tin_nhan" android:title="Tin nhắn" android:icon="@drawable/icon_chat"/>
+    <item
+        android:actionLayout="@layout/icon_notification"
+        app:showAsAction="always"
+        android:id="@+id/action_tin_nhan"
+        android:title="Tin nhắn"
+        android:icon="@drawable/icon_chat"/>
     <item android:id="@+id/action3" android:title="tille_bottom3" android:icon="@drawable/icon_user2"/>
 </menu>
